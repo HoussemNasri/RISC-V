@@ -9,11 +9,12 @@ ENTITY Datapath IS
 		extend_out: INOUT signed(31 DOWNTO 0);
 		clk : IN std_logic;
 		alu_control: IN std_logic_vector(2 downto 0); 
-		alu_result: INOUT signed(31 downto 0);
+		alu_result: OUT signed(31 downto 0);
 		readData: INOUT std_logic_vector(31 downto 0);
 		ImmSrc: IN std_logic;
 		MemWrite: IN std_logic; -- Control signal to enable/disable data memory writing
-		RegWrite: IN std_logic -- Control signal to enable/disable register file writing
+		RegWrite: IN std_logic; -- Control signal to enable/disable register file writing
+		RD1: OUT std_logic_vector(31 downto 0)
 	);
 END;
 
@@ -73,10 +74,14 @@ ARCHITECTURE Behavioural OF Datapath IS
 	SIGNAL register_RD1 : std_logic_vector(31 DOWNTO 0);
 	SIGNAL register_RD2 : std_logic_vector(31 DOWNTO 0);
 	SIGNAL data_data : std_logic_vector(31 downto 0);
+	SIGNAL aluResult : signed(31 DOWNTO 0);
 	SIGNAL extend_in : signed(11 DOWNTO 0);
 	-- SIGNAL extend_out : signed(31 DOWNTO 0);
  
 BEGIN
+
+	RD1 <= register_RD1;
+	alu_result <= aluResult;
 
 	instuctionMemory : InstrMemory
 	PORT MAP(PCNext => PC, instr => currentInstruction);
@@ -91,12 +96,13 @@ BEGIN
    isWriteEnable => RegWrite, clk => clk, RD1 => register_RD1, RD2 => register_RD2);
 		
 	alu_unit: ALU 
-	port map (A => signed(register_RD1), B => extend_out, S => alu_result, ALUControl => alu_control);
+	port map (A => signed(register_RD1), B => extend_out, S => aluResult, ALUControl => alu_control);
 	
 	data_memory: DataMemory
-	PORT MAP(address => std_logic_vector(alu_result), clk => clk,  readData => readData, writeData => register_RD2,
+	PORT MAP(address => std_logic_vector(aluResult), clk => clk,  readData => readData, writeData => register_RD2,
 	isWriteEnable => MemWrite);
  
 	register_A1 <= currentInstruction(19 DOWNTO 15);
+	register_A2 <= currentInstruction(24 DOWNTO 20);
 	
 END;

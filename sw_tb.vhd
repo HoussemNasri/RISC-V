@@ -6,7 +6,7 @@ entity sw_tb is
 end sw_tb;
 
 architecture tb of sw_tb is
-	 signal PC: unsigned(31 downto 0) := x"00000000";
+	 signal PC: unsigned(31 downto 0) := x"00000001";
 	 signal clk: std_logic := '0';
 	 signal extend_out: signed(31 DOWNTO 0);	 
 	 signal alu_result: signed(31 downto 0);
@@ -16,6 +16,7 @@ architecture tb of sw_tb is
 	 signal ImmSrc : std_logic := '1';
 	 signal MemWrite: std_logic := '1';
 	 signal RegWrite: std_logic := '0';
+	 signal RD1: std_logic_vector(31 downto 0);
 begin
 
 	process(clk) 
@@ -28,7 +29,7 @@ begin
 	 UUT : entity work.Datapath 
 	 port map (PC => PC, clk => clk, extend_out => extend_out, alu_result => alu_result,
 	 ALU_control => alu_control, readData => readData, ImmSrc => ImmSrc, MemWrite => MemWrite,
-	 RegWrite => RegWrite);
+	 RegWrite => RegWrite, RD1 => RD1);
 	 
 	 clk <=  '1' after 10 ns when clk = '0' else
         '0' after 10 ns when clk = '1';
