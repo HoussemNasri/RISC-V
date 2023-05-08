@@ -59,11 +59,12 @@
 # ignore Quartus II generated folders
 */db/
 */incremental_db/**
-*/simulation/*
-*/timing/*
-*/testbench/*
-*/*_sim/*
+*/simulation/**
+*/timing/**
+*/testbench/**
+*/*_sim/**
 incremental_db/
+simulation/
 db/
 _output_files/
 PLLJ_PLLSPE_INFO.txt
