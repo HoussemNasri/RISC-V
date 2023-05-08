@@ -10,7 +10,10 @@ ENTITY Datapath IS
 		clk : IN std_logic;
 		alu_control: IN std_logic_vector(2 downto 0); 
 		alu_result: INOUT signed(31 downto 0);
-		read_data: INOUT std_logic_vector(31 downto 0)
+		readData: INOUT std_logic_vector(31 downto 0);
+		ImmSrc: IN std_logic;
+		MemWrite: IN std_logic; -- Control signal to enable/disable data memory writing
+		RegWrite: IN std_logic -- Control signal to enable/disable register file writing
 	);
 END;
 
@@ -32,7 +35,6 @@ ARCHITECTURE Behavioural OF Datapath IS
 	COMPONENT InstrMemory
 		PORT (
 			PCNext : IN unsigned(31 DOWNTO 0);
-			clk : IN std_logic;
 			instr : OUT std_logic_vector(31 DOWNTO 0) -- The instruction size is 32 bit
 		);
 	END COMPONENT;
@@ -56,7 +58,10 @@ ARCHITECTURE Behavioural OF Datapath IS
 	COMPONENT DataMemory
 		port(
 			address: in std_logic_vector(31 downto 0);
-			data: out std_logic_vector(31 downto 0)
+			isWriteEnable: in std_logic;
+			clk: in std_logic;
+			writeData: in std_logic_vector(31 downto 0);
+			readData: out std_logic_vector(31 downto 0)
 		);
 	END COMPONENT;
  
@@ -74,22 +79,24 @@ ARCHITECTURE Behavioural OF Datapath IS
 BEGIN
 
 	instuctionMemory : InstrMemory
-	PORT MAP(PCNext => PC, clk => clk, instr => currentInstruction);
+	PORT MAP(PCNext => PC, instr => currentInstruction);
  
+	extend_in <= signed(currentInstruction(31 DOWNTO 20)) when ImmSrc = '0' else 
+					 signed(currentInstruction(31 downto 25) & currentInstruction(11 downto 7)) when ImmSrc = '1';					 
 	extendUnit : Extend
 	PORT MAP(A => extend_in, S => extend_out);
  
 	reg : RegisterFile
-	PORT MAP(A1 => register_A1, A2 => register_A2, A3 => currentInstruction(11 downto 7), Data => read_data, 
-		isWriteEnable => '1', clk => clk, RD1 => register_RD1, RD2 => register_RD2);
+	PORT MAP(A1 => register_A1, A2 => register_A2, A3 => currentInstruction(11 downto 7), Data => readData, 
+   isWriteEnable => RegWrite, clk => clk, RD1 => register_RD1, RD2 => register_RD2);
 		
 	alu_unit: ALU 
 	port map (A => signed(register_RD1), B => extend_out, S => alu_result, ALUControl => alu_control);
 	
 	data_memory: DataMemory
-	PORT MAP(address => std_logic_vector(alu_result), data => read_data);
+	PORT MAP(address => std_logic_vector(alu_result), clk => clk,  readData => readData, writeData => register_RD2,
+	isWriteEnable => MemWrite);
  
 	register_A1 <= currentInstruction(19 DOWNTO 15);
-	extend_in <= signed(currentInstruction(31 DOWNTO 20));
 	
 END;

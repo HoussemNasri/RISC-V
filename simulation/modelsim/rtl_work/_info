@@ -1,0 +1,265 @@
+m255
+K3
+13
+cModel Technology
+Z0 dC:\Users\Houssem\Documents\VHDLStuff\risc-v\simulation\modelsim
+Ealu
+Z1 w1683395289
+Z2 DPx4 ieee 11 numeric_std 0 22 O3PF8EB`?j9=z7KT`fn941
+Z3 DPx3 std 6 textio 0 22 5>J:;AW>W0[[dW0I6EN1Q0
+Z4 DPx4 ieee 14 std_logic_1164 0 22 5=aWaoGZSMWIcH0i^f`XF1
+Z5 dC:\Users\Houssem\Documents\VHDLStuff\risc-v\simulation\modelsim
+Z6 8C:/Users/Houssem/Documents/VHDLStuff/risc-v/ALU.vhd
+Z7 FC:/Users/Houssem/Documents/VHDLStuff/risc-v/ALU.vhd
+l0
+L6
+V?><P=hCOLz9ZZ4^ifAGAF1
+Z8 OV;C;10.1d;51
+33
+Z9 !s108 1683563573.871000
+Z10 !s90 -reportprogress|300|-2008|-work|work|C:/Users/Houssem/Documents/VHDLStuff/risc-v/ALU.vhd|
+Z11 !s107 C:/Users/Houssem/Documents/VHDLStuff/risc-v/ALU.vhd|
+Z12 o-2008 -work work -O0
+Z13 tExplicit 1
+!s100 l]al:MZb^JgQcW1RTO2J:2
+!i10b 1
+Aalu_arch
+R2
+R3
+R4
+DEx4 work 3 alu 0 22 ?><P=hCOLz9ZZ4^ifAGAF1
+l24
+L15
+VZVMjUl=g44dFQ7`eWomYC3
+R8
+33
+R9
+R10
+R11
+R12
+R13
+!s100 7JM5[MF3946hIbicWgW2^1
+!i10b 1
+Edatamemory
+Z14 w1683495552
+R2
+R3
+R4
+R5
+Z15 8C:/Users/Houssem/Documents/VHDLStuff/risc-v/DataMemory.vhd
+Z16 FC:/Users/Houssem/Documents/VHDLStuff/risc-v/DataMemory.vhd
+l0
+L6
+VC`@d]zo5WB9L0c6j@@e5e2
+R8
+33
+Z17 !s108 1683563574.054000
+Z18 !s90 -reportprogress|300|-2008|-work|work|C:/Users/Houssem/Documents/VHDLStuff/risc-v/DataMemory.vhd|
+Z19 !s107 C:/Users/Houssem/Documents/VHDLStuff/risc-v/DataMemory.vhd|
+R12
+R13
+!s100 =_YW[zcWeIl^37mOCDPFg2
+!i10b 1
+Abehavioural
+R2
+R3
+R4
+DEx4 work 10 datamemory 0 22 C`@d]zo5WB9L0c6j@@e5e2
+l19
+L16
+VSNY5SX;GKNah7^ghB9RLD3
+R8
+33
+R17
+R18
+R19
+R12
+R13
+!s100 a_<^XlCNM;1`mdHaN?[VA1
+!i10b 1
+Edatapath
+Z20 w1683491986
+R2
+R3
+R4
+R5
+Z21 8C:/Users/Houssem/Documents/VHDLStuff/risc-v/Datapath.vhd
+Z22 FC:/Users/Houssem/Documents/VHDLStuff/risc-v/Datapath.vhd
+l0
+L6
+VR=]K]NnkoLI9MT21jhAN91
+R8
+33
+Z23 !s108 1683563574.112000
+Z24 !s90 -reportprogress|300|-2008|-work|work|C:/Users/Houssem/Documents/VHDLStuff/risc-v/Datapath.vhd|
+Z25 !s107 C:/Users/Houssem/Documents/VHDLStuff/risc-v/Datapath.vhd|
+R12
+R13
+!s100 SIK@0GUl1LMFZMEV8?Y690
+!i10b 1
+Abehavioural
+R2
+R3
+R4
+Z26 DEx4 work 8 datapath 0 22 R=]K]NnkoLI9MT21jhAN91
+l80
+L20
+VP^G69`7Vi64cf:<ZhNbJ_2
+R8
+33
+R23
+R24
+R25
+R12
+R13
+!s100 BS;jPGZl5I3ACnbS_N62W0
+!i10b 1
+Edatapath_tb
+Z27 w1683491651
+R2
+R3
+R4
+R5
+Z28 8C:/Users/Houssem/Documents/VHDLStuff/risc-v/Datapth_tb.vhd
+Z29 FC:/Users/Houssem/Documents/VHDLStuff/risc-v/Datapth_tb.vhd
+l0
+L5
+VNoT^dI9Ck@7m;g<BW:8XC3
+!s100 ZRd7R^LDzYSGGdGh[@a772
+R8
+33
+!i10b 1
+Z30 !s108 1683563574.233000
+Z31 !s90 -reportprogress|300|-2008|-work|work|C:/Users/Houssem/Documents/VHDLStuff/risc-v/Datapth_tb.vhd|
+Z32 !s107 C:/Users/Houssem/Documents/VHDLStuff/risc-v/Datapth_tb.vhd|
+R12
+R13
+Atb
+R26
+R2
+R3
+R4
+DEx4 work 11 datapath_tb 0 22 NoT^dI9Ck@7m;g<BW:8XC3
+l18
+L8
+VkhKaolZ8_N_Uj]zTPY[2@1
+!s100 ]Sa]]NijdeI7>LPjlclDk1
+R8
+33
+!i10b 1
+R30
+R31
+R32
+R12
+R13
+Eextend
+Z33 w1682612357
+R2
+R3
+R4
+R5
+Z34 8C:/Users/Houssem/Documents/VHDLStuff/risc-v/Extend.vhd
+Z35 FC:/Users/Houssem/Documents/VHDLStuff/risc-v/Extend.vhd
+l0
+L6
+VZ;dBCOaLeJfkKY<AJjV=m2
+R8
+33
+Z36 !s108 1683563574.174000
+Z37 !s90 -reportprogress|300|-2008|-work|work|C:/Users/Houssem/Documents/VHDLStuff/risc-v/Extend.vhd|
+Z38 !s107 C:/Users/Houssem/Documents/VHDLStuff/risc-v/Extend.vhd|
+R12
+R13
+!s100 ;gC4XJm650@>b=4YaEhDj2
+!i10b 1
+Abehavioural
+R2
+R3
+R4
+DEx4 work 6 extend 0 22 Z;dBCOaLeJfkKY<AJjV=m2
+l14
+L13
+VOAMoj]?MnKD@AN^=_jT0n0
+R8
+33
+R36
+R37
+R38
+R12
+R13
+!s100 VbO5@n:g=Vi:Qd1`i__222
+!i10b 1
+Einstrmemory
+Z39 w1683494985
+R2
+R3
+R4
+R5
+Z40 8C:/Users/Houssem/Documents/VHDLStuff/risc-v/InstrMemory.vhd
+Z41 FC:/Users/Houssem/Documents/VHDLStuff/risc-v/InstrMemory.vhd
+l0
+L6
+V?RHC1Ik6@?Mz6eo711R^k2
+R8
+33
+Z42 !s108 1683563573.939000
+Z43 !s90 -reportprogress|300|-2008|-work|work|C:/Users/Houssem/Documents/VHDLStuff/risc-v/InstrMemory.vhd|
+Z44 !s107 C:/Users/Houssem/Documents/VHDLStuff/risc-v/InstrMemory.vhd|
+R12
+R13
+!s100 zOi]McCPX=@c0A:QcdmXW1
+!i10b 1
+Abehavioural
+R2
+R3
+R4
+DEx4 work 11 instrmemory 0 22 ?RHC1Ik6@?Mz6eo711R^k2
+l17
+L14
+VU^JB=h`D217b3o`PT[emG3
+R8
+33
+R42
+R43
+R44
+R12
+R13
+!s100 Gl30FY]M8gUNUE_ZV3`a62
+!i10b 1
+Eregisterfile
+Z45 w1683494948
+R2
+R3
+R4
+R5
+Z46 8C:/Users/Houssem/Documents/VHDLStuff/risc-v/RegisterFile.vhd
+Z47 FC:/Users/Houssem/Documents/VHDLStuff/risc-v/RegisterFile.vhd
+l0
+L6
+V<;P_MC<J0gB]V=bi1:lkE1
+R8
+33
+Z48 !s108 1683563573.996000
+Z49 !s90 -reportprogress|300|-2008|-work|work|C:/Users/Houssem/Documents/VHDLStuff/risc-v/RegisterFile.vhd|
+Z50 !s107 C:/Users/Houssem/Documents/VHDLStuff/risc-v/RegisterFile.vhd|
+R12
+R13
+!s100 COIXfLTRS0FSIO@<JD=830
+!i10b 1
+Abehavioural
+R2
+R3
+R4
+DEx4 work 12 registerfile 0 22 <;P_MC<J0gB]V=bi1:lkE1
+l22
+L19
+V<Jg5[i1M3EWgW5O607W3N1
+R8
+33
+R48
+R49
+R50
+R12
+R13
+!s100 U6Nd@6:=oi9iRaeaN2j``1
+!i10b 1
