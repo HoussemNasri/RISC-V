@@ -31,10 +31,11 @@ begin
 	end process;
 	
 	-- Handle reads asyncrounously
-	process(all) 
+	process(A1, A2)
 	begin
 		RD1 <= registers(to_integer(unsigned(A1)));
 		RD2 <= registers(to_integer(unsigned(A2)));
 	end process;
 	
 end;
+

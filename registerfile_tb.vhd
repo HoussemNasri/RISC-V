@@ -26,10 +26,10 @@ begin
 	 TB: process 
 	 begin
 		addressA1 <= "01001"; -- Read from register x9
-		wait for 4ns;
+		wait for 4 ns;
 		addressA3 <= "01000"; -- Write to register x8
 		data <= x"0000000F";
-		wait for 10ns;
+		wait for 10 ns;
 		addressA2 <= "01000"; -- Read from register x8
 	 end process;
 end tb ;

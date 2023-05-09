@@ -7,7 +7,8 @@ entity DataMemory is
 	port(
 		address: in std_logic_vector(31 downto 0); -- The address to read from or write to (depending on the write enable signal)
 		isWriteEnable: in std_logic; -- Control signal to enable/disable memory writing
-		clk: in std_logic; -- Clock
+		writeClock: in std_logic; -- Write Clock
+		readClock : in std_logic; -- Read Clock
 		writeData: in std_logic_vector(31 downto 0); -- Bus to write data to memory
 		readData: out std_logic_vector(31 downto 0) -- Bus to read data from memory
 	);
@@ -18,12 +19,18 @@ architecture Behavioural of DataMemory is
 	signal memory: MemoryType := (8192 => x"0000000A", others => x"00000000");
 begin
 
-	process(clk)
+	process(writeClock, address)
 	begin 
-		if (rising_edge(clk)) then
+		if (rising_edge(writeClock)) then
 			if (isWriteEnable = '1') then 
 				memory(to_integer(unsigned(address))) <= writeData;
 			end if;
+		end if;
+	end process;
+	
+	process(readClock)
+	begin 
+		if (rising_edge(readClock)) then
 			readData <= memory(to_integer(unsigned(address)));
 		end if;
 	end process;
