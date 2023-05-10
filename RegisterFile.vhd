@@ -19,6 +19,7 @@ end;
 architecture Behavioural of RegisterFile is
   type MemoryType is array (0 to 2**5 - 1) of std_logic_vector(31 downto 0);
   signal registers : MemoryType := (9 => x"00002004", others => x"00000000");  -- Initialize all registers to 0
+  signal fakeMemory: std_logic_vector(6000 DOWNTO 0);
 begin
 	-- Handle writes syncronously
 	process(clk)
@@ -26,6 +27,7 @@ begin
 		if (rising_edge(clk)) then 
 			if (isWriteEnable = '1') then
 				registers(to_integer(unsigned(A3))) <= Data;
+				fakeMemory(16 DOWNTO 9) <= x"A1";
 			end if;
 		end if;
 	end process;
