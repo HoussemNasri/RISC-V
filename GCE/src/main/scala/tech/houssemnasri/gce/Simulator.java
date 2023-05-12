@@ -3,6 +3,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import treadle.vcd.Change;
+import treadle.vcd.VCD;
 
 public class Simulator {
     private static final int CLOCK_CYCLE_PERIOD = 10; // ns
@@ -13,6 +14,8 @@ public class Simulator {
     public Simulator(MachineState machine, Program program, GHDLInteractor ghdlInteractor) {
         this.machine = machine;
         this.program = program;
+
+        VCD vcd = ghdlInteractor.run(program);
     }
 
     public void stepIn() {
