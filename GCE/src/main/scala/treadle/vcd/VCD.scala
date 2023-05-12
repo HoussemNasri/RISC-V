@@ -44,7 +44,7 @@ object VCD {
   val ScopedModule: Regex = """\s*(?i)(\S+)\s+(\S+)\s*""".r
   val JustScoped:   Regex = """\s*(\S+)\s*""".r
 
-  val VarSpec:            Regex = """\s*(\w+)\s+(\d+)\s+(\S+)\s+([\S ]+)\s*""".r
+  val VarSpec:            Regex = """\s*(wire|reg)\s+(\d+)\s+(\S+)\s+([\S ]+)\s*""".r
   val ValueChangeScalar:  Regex = """\s*(\d+)(\S+)\s*""".r
   val ValueChangeVector:  Regex = """\s*([rbh])([0-9.]+)\s*""".r
   val ValueChangeVectorX: Regex = """\s*([rbh]).*x.*\s*""".r
@@ -116,7 +116,6 @@ object VCD {
    * @param varPrefix only retain vars that contain prefix, remove prefix while recording
    * @return a populated VCD class
    */
-  val wireIdToWire = new mutable.HashMap[String, Wire]
   def read(
             vcdFile:          String,
             startScope:       String = "",
@@ -144,6 +143,7 @@ object VCD {
       "h" -> 16
     )
 
+    val wireIdToWire = new mutable.HashMap[String, Wire]
     val aliasedWires = new mutable.HashMap[String, mutable.HashSet[Wire]]
     val skippedWires = new mutable.HashMap[String, Wire]
 
@@ -240,12 +240,8 @@ object VCD {
     }
 
     def addVar(s: String): Unit = {
-      // Given that 'reg' type is not supported by this parser and that 'wire' and 'reg' are
-      // pretty much the same thing in Verilog, I decided, instead of modifying the parser to parse 'reg'
-      // types, to just replace 'reg' by 'wire'.
-      var cleanS = s.replaceAll("^\\s*reg", "wire")
-      cleanS match {
-        case VarSpec("wire", sizeString, idString, referenceString) =>
+      s match {
+        case VarSpec(_, sizeString, idString, referenceString) =>
           checkName(referenceString.split(""" +""").head) match {
             case Some(varName) =>
               if (desiredScopeFound) {
@@ -265,11 +261,12 @@ object VCD {
               }
             case _ =>
               val varName = referenceString.split(" +").head
+              println("Ignoring " + varName)
               /*logger.debug(s"Ignore var ${scopePathString(currentScope)}$varName at line ${words.currentLineNumber}")*/
               skippedWires(idString) = Wire(varName, idString, sizeString.toInt, scopePath(currentScope).toArray)
           }
         case _ =>
-          println("Couldn't resolve var: " + cleanS)
+          println("Couldn't resolve var: " + s)
           /*logger.warn(s"Could not parse var $s at line ${words.currentLineNumber}")*/
       }
     }
