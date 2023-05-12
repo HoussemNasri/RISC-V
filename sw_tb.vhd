@@ -7,7 +7,7 @@ end sw_tb;
 
 architecture tb of sw_tb is
 	 signal PC: unsigned(31 downto 0) := x"00000001";
-	 signal clk: std_logic := '0';
+	 signal clk: std_logic := '1';
 	 signal extend_out: signed(31 DOWNTO 0);	 
 	 signal readData : std_logic_vector(31 downto 0);
 	 -- Control Signals

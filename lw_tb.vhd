@@ -7,7 +7,7 @@ end lw_tb;
 
 architecture tb of lw_tb is
 	 signal PC: unsigned(31 downto 0) := x"00000000";
-	 signal clk: std_logic := '0';
+	 signal clk: std_logic := '1';
 	 signal fastClock: std_logic := '0';
 	 signal extend_out: signed(31 DOWNTO 0);	 
 	 signal alu_control: std_logic_vector(2 downto 0) := "000"; -- Addition operation
