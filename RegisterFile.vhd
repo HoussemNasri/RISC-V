@@ -17,17 +17,22 @@ entity RegisterFile is
 end;
 
 architecture Behavioural of RegisterFile is
-  type MemoryType is array (0 to 2**5 - 1) of std_logic_vector(31 downto 0);
-  signal registers : MemoryType := (9 => x"00002004", others => x"00000000");  -- Initialize all registers to 0
-  signal fakeMemory: std_logic_vector(6000 DOWNTO 0);
+  function init_registers
+	return std_logic_vector is variable regs : std_logic_vector(1023 DOWNTO 0) := (others => '0');
+  begin 
+	regs(319 downto 288) := x"00002004";
+	return regs;
+  end;
+
+  signal registers : std_logic_vector(1023 DOWNTO 0) := init_registers;
 begin
+	
 	-- Handle writes syncronously
 	process(clk)
 	begin 
 		if (rising_edge(clk)) then 
 			if (isWriteEnable = '1') then
-				registers(to_integer(unsigned(A3))) <= Data;
-				fakeMemory(16 DOWNTO 9) <= x"A1";
+				registers(to_integer(unsigned(A3)) * 32 + 31 downto to_integer(unsigned(A3)) * 32) <= Data;
 			end if;
 		end if;
 	end process;
@@ -35,8 +40,8 @@ begin
 	-- Handle reads asyncrounously
 	process(A1, A2)
 	begin
-		RD1 <= registers(to_integer(unsigned(A1)));
-		RD2 <= registers(to_integer(unsigned(A2)));
+		RD1 <= registers(to_integer(unsigned(A1)) * 32 + 31 downto to_integer(unsigned(A1)) * 32);
+		RD2 <= registers(to_integer(unsigned(A2)) * 32 + 31 downto to_integer(unsigned(A2)) * 32);
 	end process;
 	
 end;
