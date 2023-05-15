@@ -34,12 +34,10 @@ public class HelloApplication extends Application {
                     vcd.scopeRoot().wires().head().fullName());
 
             VCDExtensions vcdExtensions = new VCDExtensions(vcd);
+            GHDLInteractor ghdlInteractor = new GHDLInteractor();
+            Simulator simul = new Simulator(null, null, ghdlInteractor);
 
             Map<String, BigInteger> latestWiresValues = vcdExtensions.getLatestWiresValue();
-            for (String wireId : latestWiresValues.keySet()) {
-                String wireName = VCD.wireIdToWire().get(wireId).get().name();
-                System.out.println(VCD.wireIdToWire().get(wireId).get().fullName() + " : " + latestWiresValues.get(wireId));
-            }
 
             // vcd.dumpHumanReadable();
         } catch (Exception exception) {
