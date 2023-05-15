@@ -6,7 +6,6 @@ entity lw_tb is
 end lw_tb;
 
 architecture tb of lw_tb is
-	 signal PC: unsigned(31 downto 0) := x"00000000";
 	 signal clk: std_logic := '1';
 	 signal fastClock: std_logic := '0';
 	 signal extend_out: signed(31 DOWNTO 0);	 
@@ -19,15 +18,8 @@ architecture tb of lw_tb is
 	 signal ResultSrc: std_logic := '1';
 begin
 
-	process(clk) 
-	begin 
-		if(rising_edge(clk)) then
-			PC <= PC + 1;
-		end if;
-	end process;
-	
 	 UUT : entity work.Datapath 
-	 port map (PC => PC, clk => clk, extend_out => extend_out,
+	 port map (clk => clk, extend_out => extend_out,
 	 ALU_control => alu_control, readData => readData, ImmSrc => ImmSrc, MemWrite => MemWrite,
 	 RegWrite => RegWrite, ALUSrc => ALUSrc, ResultSrc => ResultSrc, fastClock => fastClock);
 	 

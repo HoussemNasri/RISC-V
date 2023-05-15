@@ -5,7 +5,6 @@ USE IEEE.numeric_std.ALL;
 -- The Datapath Unit
 ENTITY Datapath IS
 	PORT (
-		PC: IN unsigned(31 downto 0);
 		extend_out: INOUT signed(31 DOWNTO 0);
 		clk : IN std_logic;
 		alu_control: IN std_logic_vector(2 downto 0); 
@@ -89,9 +88,17 @@ ARCHITECTURE Behavioural OF Datapath IS
 	SIGNAL extend_in : signed(11 DOWNTO 0);
 	SIGNAL aluSrcB   : std_logic_vector(31 DOWNTO 0);
 	SIGNAL result    : std_logic_vector(31 DOWNTO 0);
+	SIGNAL PC        : unsigned(31 DOWNTO 0) := x"00000000";
 	-- SIGNAL extend_out : signed(31 DOWNTO 0);
  
 BEGIN
+
+	process(clk) 
+	begin
+		if(rising_edge(clk)) then
+			PC <= PC + 1;
+		end if;
+	end process;
 
 	instuctionMemory : InstrMemory
 	PORT MAP(PCNext => PC, instr => currentInstruction);
