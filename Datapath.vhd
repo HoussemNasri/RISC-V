@@ -14,6 +14,7 @@ ENTITY Datapath IS
 		RegWrite: IN std_logic; -- Control signal to enable/disable register file writing
 		ALUSrc: IN std_logic;
 		ResultSrC: IN std_logic;
+		PCSrc    : IN std_logic;
 		fastClock: IN std_logic
 	);
 END;
@@ -43,7 +44,7 @@ ARCHITECTURE Behavioural OF Datapath IS
 	COMPONENT Extend
 		PORT (
 			instruction: in std_logic_vector(31 downto 0);
-			ImmSrc: std_logic_vector(1 downto 0);
+			ImmSrc: in std_logic_vector(1 downto 0);
 			extended: out signed(31 downto 0)
 		);
 	END COMPONENT;
@@ -86,7 +87,10 @@ ARCHITECTURE Behavioural OF Datapath IS
 	SIGNAL aluResult : signed(31 DOWNTO 0);
 	SIGNAL aluSrcB   : std_logic_vector(31 DOWNTO 0);
 	SIGNAL result    : std_logic_vector(31 DOWNTO 0);
-	SIGNAL PC        : unsigned(31 DOWNTO 0) := x"00000000";
+	SIGNAL PC        : unsigned(31 DOWNTO 0) := x"0000001A";
+	SIGNAL PCNext    : std_logic_vector(31 DOWNTO 0) := x"00000000";
+	SIGNAL temp1     : std_logic_vector(31 downto 0);
+	SIGNAL temp2     : std_logic_vector(31 downto 0);
 	-- SIGNAL extend_out : signed(31 DOWNTO 0);
  
 BEGIN
@@ -94,7 +98,7 @@ BEGIN
 	process(clk) 
 	begin
 		if(rising_edge(clk)) then
-			PC <= PC + 1;
+			PC <= unsigned(PCNext);
 		end if;
 	end process;
 
@@ -120,5 +124,12 @@ BEGIN
 	
 	M2: Mux_2_to_1
 	port map(A => std_logic_vector(aluResult), B => readData, selector => resultSrC, S => result);
+	
+	-- Modelsim refused to simulate the design when I passed this directly to the Mux
+	temp1 <= std_logic_vector(PC + 4);
+	temp2 <= std_logic_vector(signed(PC) + extend_out);
+	
+	M3: Mux_2_to_1
+	port map(A => temp1, B => temp2, selector => PCSrc,  S => PCNext);
 	
 END;

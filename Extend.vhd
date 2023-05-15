@@ -6,7 +6,7 @@ use IEEE.numeric_std.all;
 entity Extend is 
 	port (
 		instruction: in std_logic_vector(31 downto 0);
-		ImmSrc: std_logic_vector(1 downto 0);
+		ImmSrc: in std_logic_vector(1 downto 0);
 		extended: out signed(31 downto 0)
 	);
 end;

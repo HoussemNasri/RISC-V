@@ -16,12 +16,13 @@ architecture tb of sw_tb is
 	 signal RegWrite: std_logic := '0';
 	 signal ALUSrc: std_logic := '1';
 	 signal ResultSrc: std_logic := '0';
+	 signal PCSrc    : std_logic := '1';
 begin
 	
 	 UUT : entity work.Datapath 
 	 port map (clk => clk, extend_out => extend_out,
 	 ALU_control => alu_control, readData => readData, ImmSrc => ImmSrc, MemWrite => MemWrite,
-	 RegWrite => RegWrite, ALUSrc => ALUSrc, ResultSrc => ResultSrc, fastClock => '0');
+	 RegWrite => RegWrite, ALUSrc => ALUSrc, ResultSrc => ResultSrc, fastClock => '0', PCSrc => PCSrc);
 	 
 	 clk <=  '1' after 10 ns when clk = '0' else
         '0' after 10 ns when clk = '1';
