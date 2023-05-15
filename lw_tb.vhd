@@ -11,7 +11,7 @@ architecture tb of lw_tb is
 	 signal extend_out: signed(31 DOWNTO 0);	 
 	 signal alu_control: std_logic_vector(2 downto 0) := "000"; -- Addition operation
 	 signal readData : std_logic_vector(31 downto 0);
-	 signal ImmSrc : std_logic := '0';
+	 signal ImmSrc : std_logic_vector(1 downto 0) := "00";
 	 signal MemWrite: std_logic := '0';
 	 signal RegWrite: std_logic := '1';
 	 signal ALUSrc: std_logic := '1';
