@@ -87,7 +87,7 @@ ARCHITECTURE Behavioural OF Datapath IS
 	SIGNAL aluResult : signed(31 DOWNTO 0);
 	SIGNAL aluSrcB   : std_logic_vector(31 DOWNTO 0);
 	SIGNAL result    : std_logic_vector(31 DOWNTO 0);
-	SIGNAL PC        : unsigned(31 DOWNTO 0) := x"0000001A";
+	SIGNAL PC        : unsigned(31 DOWNTO 0) := x"00000000";
 	SIGNAL PCNext    : std_logic_vector(31 DOWNTO 0) := x"00000000";
 	SIGNAL temp1     : std_logic_vector(31 downto 0);
 	SIGNAL temp2     : std_logic_vector(31 downto 0);

@@ -16,7 +16,7 @@ architecture tb of lw_tb is
 	 signal RegWrite: std_logic := '1';
 	 signal ALUSrc: std_logic := '1';
 	 signal ResultSrc: std_logic := '1';
-	 signal PCSrc    : std_logic := '1';
+	 signal PCSrc    : std_logic := '0';
 begin
 
 	 UUT : entity work.Datapath 
