@@ -15,7 +15,7 @@ public class GHDLInteractor {
     private final Path cpuVHDLFilesPath = Paths.get("C:\\Users\\Houssem\\Desktop\\GHDL-Testing\\cpu");
     private final String topEntity = "lw_tb";
     private final String vcdWaveformFilePath = "abcd.vcd";
-    private final Long stopTimeInNanoseconds = 40L; // 2 cycles
+    private final Long stopTimeInNanoseconds = 100L; // 2 cycles
 
     public VCD run(Program program) {
         List<String> vhdlFileNames = getVHDLFileNames();

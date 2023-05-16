@@ -1,3 +1,5 @@
+import java.util.List;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -7,6 +9,10 @@ public class DataMemory {
     public void setWord(int wordIndex, int value) {
         checkWordIndex(wordIndex);
         words.set(wordIndex, value);
+    }
+
+    public void setAllWords(List<Integer> updatedWords) {
+        words.setAll(updatedWords);
     }
 
     public int readWord(int wordIndex) {

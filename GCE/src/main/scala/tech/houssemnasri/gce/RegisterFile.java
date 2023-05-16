@@ -1,3 +1,4 @@
+import java.util.List;
 import java.util.Objects;
 
 import javafx.collections.FXCollections;
@@ -6,8 +7,19 @@ import javafx.collections.ObservableList;
 public class RegisterFile {
     private final ObservableList<Integer> registerList = FXCollections.observableArrayList();
 
+    public RegisterFile() {
+        for (int i = 0; i < 32; i++) {
+            registerList.add(0);
+        }
+    }
+
     public void setRegister(Register register, int value) {
         registerList.set(register.index(), value);
+    }
+
+    public void setAllRegisters(List<Integer> updatedRegisters) {
+        assert updatedRegisters != null && updatedRegisters.size() == 32;
+        registerList.setAll(updatedRegisters);
     }
 
     public int readRegister(Register register) {
@@ -17,5 +29,18 @@ public class RegisterFile {
 
     public ObservableList<Integer> getRegisterList() {
         return registerList;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("RISC-V 32 registers").append("\n");
+        stringBuilder.append("-----------------------").append("\n");
+
+        for (int regIndex = 0; regIndex < 32; regIndex++) {
+            stringBuilder.append(String.format("[%s (x%d)]: %d", Register.byIndex(regIndex), regIndex, registerList.get(regIndex))).append("\n");
+        }
+
+        return stringBuilder.toString();
     }
 }

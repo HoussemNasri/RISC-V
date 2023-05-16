@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public enum Register {
 
     ZERO(0),
@@ -41,5 +43,10 @@ public enum Register {
 
     public int index() {
         return index;
+    }
+
+    public static Register byIndex(int index) {
+        assert index >= 0 && index <= 31;
+        return Arrays.stream(values()).filter(r -> r.index() == index).findFirst().get();
     }
 }
