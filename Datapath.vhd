@@ -5,10 +5,8 @@ USE IEEE.numeric_std.ALL;
 -- The Datapath Unit
 ENTITY Datapath IS
 	PORT (
-		extend_out: INOUT signed(31 DOWNTO 0);
 		clk : IN std_logic;
 		alu_control: IN std_logic_vector(2 downto 0); 
-		readData: INOUT std_logic_vector(31 downto 0);
 		ImmSrc: IN std_logic_vector(1 downto 0);
 		MemWrite: IN std_logic; -- Control signal to enable/disable data memory writing
 		RegWrite: IN std_logic; -- Control signal to enable/disable register file writing
@@ -91,7 +89,8 @@ ARCHITECTURE Behavioural OF Datapath IS
 	SIGNAL PCNext    : std_logic_vector(31 DOWNTO 0) := x"00000000";
 	SIGNAL temp1     : std_logic_vector(31 downto 0);
 	SIGNAL temp2     : std_logic_vector(31 downto 0);
-	-- SIGNAL extend_out : signed(31 DOWNTO 0);
+	SIGNAL extend_out : signed(31 DOWNTO 0);
+	SIGNAL readData: std_logic_vector(31 downto 0);
  
 BEGIN
 
