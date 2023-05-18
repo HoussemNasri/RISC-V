@@ -8,7 +8,7 @@ end lw_tb;
 architecture tb of lw_tb is
 	 signal clk: std_logic := '1';
 	 signal fastClock: std_logic := '0';
-	 signal alu_control: std_logic_vector(2 downto 0) := "000"; -- Addition operation
+	 signal ALUControl: std_logic_vector(2 downto 0) := "000"; -- Addition operation
 	 signal ImmSrc : std_logic_vector(1 downto 0) := "00";
 	 signal MemWrite: std_logic := '0';
 	 signal RegWrite: std_logic := '1';
@@ -18,7 +18,7 @@ architecture tb of lw_tb is
 begin
 
 	 UUT : entity work.Datapath 
-	 port map (clk => clk, ALU_control => alu_control, ImmSrc => ImmSrc, MemWrite => MemWrite,
+	 port map (clk => clk, ALUControl => ALUControl, ImmSrc => ImmSrc, MemWrite => MemWrite,
 	 RegWrite => RegWrite, ALUSrc => ALUSrc, ResultSrc => ResultSrc, fastClock => fastClock, PCSrc => PCSrc);
 	 
 	 clk <=  '1' after 10 ns when clk = '0' else

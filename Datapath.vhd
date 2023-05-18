@@ -6,14 +6,16 @@ USE IEEE.numeric_std.ALL;
 ENTITY Datapath IS
 	PORT (
 		clk : IN std_logic;
-		alu_control: IN std_logic_vector(2 downto 0); 
+		ALUControl: IN std_logic_vector(2 downto 0); 
 		ImmSrc: IN std_logic_vector(1 downto 0);
 		MemWrite: IN std_logic; -- Control signal to enable/disable data memory writing
 		RegWrite: IN std_logic; -- Control signal to enable/disable register file writing
 		ALUSrc: IN std_logic;
 		ResultSrC: IN std_logic;
 		PCSrc    : IN std_logic;
-		fastClock: IN std_logic
+		fastClock: IN std_logic;
+		instruction: OUT std_logic_vector(31 DOWNTO 0);
+		isZero: OUT std_logic
 	);
 END;
 
@@ -52,7 +54,8 @@ ARCHITECTURE Behavioural OF Datapath IS
 			A: in signed(31 downto 0);
 			B: in signed(31 downto 0);
 			ALUControl: in std_logic_vector(2 downto 0);
-			S: out signed(31 downto 0)
+			S: out signed(31 downto 0);
+			zeroFlag: out std_logic
 		);
 	END COMPONENT;
 	
@@ -100,6 +103,8 @@ BEGIN
 			PC <= unsigned(PCNext);
 		end if;
 	end process;
+	
+	instruction <= currentInstruction;
 
 	instuctionMemory : InstrMemory
 	PORT MAP(PCNext => PC, instr => currentInstruction);
@@ -112,7 +117,7 @@ BEGIN
    isWriteEnable => RegWrite, clk => clk, RD1 => register_RD1, RD2 => register_RD2);
 		
 	alu_unit: ALU 
-	port map (A => signed(register_RD1), B => signed(aluSrcB), S => aluResult, ALUControl => alu_control);
+	port map (A => signed(register_RD1), B => signed(aluSrcB), S => aluResult, ALUControl => ALUControl, zeroFlag => isZero);
 	
 	data_memory: DataMemory
 	PORT MAP(address => std_logic_vector(aluResult), writeClock => clk, readClock => fastClock, readData => readData, writeData => register_RD2,

@@ -8,7 +8,8 @@ entity ALU is
 		A: in signed(31 downto 0);
 		B: in signed(31 downto 0);
 		ALUControl: in std_logic_vector(2 downto 0);
-		S: out signed(31 downto 0)
+		S: buffer signed(31 downto 0);
+		zeroFlag: out std_logic
 	);
 end;
 
@@ -31,4 +32,6 @@ begin
 			A or B    when OP_OR,
 			(0 => SLTResult, others => '0') when OP_SLT,
 			x"00000000" when others;
+
+	zeroFlag <= '1' when S = x"00000000" else '0';
 end;

@@ -6,7 +6,7 @@ use IEEE.numeric_std.all;
 entity ALUDecoder is 
 	port(
 		opcode_5  : in std_logic;
-		funct3_2_0: in std_logic_vector(2 downto 0);
+		funct3: in std_logic_vector(2 downto 0);
 		funct7_5  : in std_logic;
 		ALUOp     : in std_logic_vector(1 downto 0);
 		ALUControl: out std_logic_vector(2 downto 0));
@@ -15,7 +15,7 @@ end;
 architecture Behavioural of ALUDecoder is
 	signal temp: std_logic_vector(1 downto 0);
 begin
-	process(opcode_5, funct3_2_0, funct7_5, ALUOp) is 
+	process(opcode_5, funct3, funct7_5, ALUOp) is 
 	begin 
 	
 		case ALUOp is 
@@ -24,7 +24,7 @@ begin
 			when "01" => 
 				ALUControl <= "001";
 			when "10" => 
-				case funct3_2_0 is 
+				case funct3 is 
 					when "000" => 
 						temp <= opcode_5 & funct7_5;
 						case temp is 
@@ -39,8 +39,9 @@ begin
 						ALUControl <= "011";
 					when "111" =>	
 						ALUControl <= "010";
+					when others =>
 				end case;
-		
+			when others =>
 		end case;
 	
 	end process;

@@ -5,8 +5,6 @@ use IEEE.numeric_std.all;
 entity MainDecoder is 
 	port(
 		opcode: in std_logic_vector(6 downto 0);
-		funct3: in std_logic_vector(2 downto 0);
-		funct7: in std_logic_vector(6 downto 0);
 		RegWrite: out std_logic;
 		ImmSrc: out std_logic_vector(1 downto 0);
 		ALUSrc: out std_logic;
@@ -18,7 +16,7 @@ end;
 
 architecture Behavioural of MainDecoder is
 begin
-	process(opcode, funct3, funct7) is 
+	process(opcode) is 
 	begin 
 	
 		case opcode is 
@@ -51,6 +49,10 @@ begin
 				MemWrite <= '0';
 				Branch <= '1';
 				ALUOp <= "01";
+			when others =>
+				Branch <= '0';
+				RegWrite <= '0';
+				MemWrite <= '0';
 		end case;	
 	end process;
 	

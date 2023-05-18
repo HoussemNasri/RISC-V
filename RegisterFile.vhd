@@ -20,7 +20,7 @@ architecture Behavioural of RegisterFile is
   function init_registers
 	return std_logic_vector is variable regs : std_logic_vector(1023 DOWNTO 0) := (others => '0');
   begin 
-	regs(319 downto 288) := x"00002004";
+	regs(319 downto 288) := x"00000000";
 	regs(159 downto 128) := x"00000010";
 	return regs;
   end;
