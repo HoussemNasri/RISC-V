@@ -1,12 +1,9 @@
-import java.math.BigInteger;
-import java.util.Map;
+
 
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-
-import treadle.vcd.VCD;
 
 public class HelloApplication extends Application {
     @Override
@@ -23,7 +20,7 @@ public class HelloApplication extends Application {
     public static void main(String[] args) {
         System.out.println("Hello, World");
         try {
-            VCD vcd = VCD.read(HelloApplication.class.getClassLoader().getResource("tech/houssemnasri/gce/lw_wave.vcd").getPath(), "", "", "", "");
+        /*    VCD vcd = VCD.read(HelloApplication.class.getClassLoader().getResource("tech/houssemnasri/gce/lw_wave.vcd").getPath(), "", "", "", "");
             System.out.println("Time Scale: " + vcd.timeScale());
             for (long l : vcd.events()) {
                 System.out.print(l + ", ");
@@ -33,11 +30,11 @@ public class HelloApplication extends Application {
                     vcd.scopeRoot().wires().head().id() + " : " +
                     vcd.scopeRoot().wires().head().fullName());
 
-            VCDExtensions vcdExtensions = new VCDExtensions(vcd);
+            VCDExtensions vcdExtensions = new VCDExtensions(vcd);*/
             GHDLInteractor ghdlInteractor = new GHDLInteractor();
-            Simulator simul = new Simulator(null, null, ghdlInteractor);
+            Simulator simul = new Simulator(null, ghdlInteractor);
 
-            Map<String, BigInteger> latestWiresValues = vcdExtensions.getLatestWiresValue();
+            // Map<String, BigInteger> latestWiresValues = vcdExtensions.getLatestWiresValue();
 
             // vcd.dumpHumanReadable();
         } catch (Exception exception) {

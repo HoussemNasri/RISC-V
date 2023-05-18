@@ -22,9 +22,7 @@ architecture Behavioural of DataMemory is
 	return data;
    end;
 	
-	-- type MemoryType is array (0 to 9000) of std_logic_vector(31 downto 0);
-	-- signal memory: MemoryType := (8192 => x"0000000A", others => x"00000000");
-	signal flatMemory : std_logic_vector(200 DOWNTO 0) := init_data;
+	signal words : std_logic_vector(200 DOWNTO 0) := init_data;
 begin
 
 	process(writeClock, address)
@@ -32,7 +30,7 @@ begin
 		if (rising_edge(writeClock)) then
 			if (isWriteEnable = '1') then 
 				-- memory(to_integer(unsigned(address))) <= writeData;
-				flatMemory(to_integer(unsigned(address)) * 8 + 31 downto to_integer(unsigned(address)) * 8) <= writeData;
+				words(to_integer(unsigned(address)) * 8 + 31 downto to_integer(unsigned(address)) * 8) <= writeData;
 			end if;
 		end if;
 	end process;
@@ -41,7 +39,7 @@ begin
 	begin 
 		if (rising_edge(readClock)) then
 			-- readData <= memory(to_integer(unsigned(address)));
-			readData <= flatMemory(to_integer(unsigned(address)) * 8 + 31 downto to_integer(unsigned(address)) * 8);
+			readData <= words(to_integer(unsigned(address)) * 8 + 31 downto to_integer(unsigned(address)) * 8);
 		end if;
 	end process;
 end;

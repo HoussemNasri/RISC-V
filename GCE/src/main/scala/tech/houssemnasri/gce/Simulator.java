@@ -9,7 +9,8 @@ import treadle.vcd.Change;
 import treadle.vcd.VCD;
 
 public class Simulator {
-    public static final String REGISTER_MEMORY_FULLNAME = "uut.reg.registers[1023:0]";
+    private static final String REGISTER_MEMORY_FULLNAME = "uut.dp.reg.registers[1023:0]";
+    private static final String DATA_MEMORY_FULLNAME = "uut.dp.data_memory.words[8192:0]";
     private static final int CLOCK_CYCLE_PERIOD = 20_000_000; // fs or 20 ns
     private final MachineState machine;
     private Program program;
@@ -39,6 +40,8 @@ public class Simulator {
         }
 
         resetMachine();
+        updateMachineState();
+        updateMachineState();
 
         for (Set<Change> values : valuesAtCycle) {
             System.out.println(values);
@@ -56,9 +59,10 @@ public class Simulator {
     }
 
     private void updateMachineState() {
-        List<Integer> registerValues = new ArrayList<>();
         for (Change change : valuesAtCycle.get(cycle)) {
-            if (REGISTER_MEMORY_FULLNAME.equals(change.wire().fullName())) {
+            String changedWireFullname = change.wire().fullName();
+            if (REGISTER_MEMORY_FULLNAME.equals(changedWireFullname)) {
+                List<Integer> registerValues = new ArrayList<>();
                 BigInt regValue = change.value();
                 for (int bit = 0; bit < 1024; bit += 32) {
                     int currentRegisterValue = 0;
@@ -70,10 +74,25 @@ public class Simulator {
                     }
                     registerValues.add(currentRegisterValue);
                 }
+                machine.getRegisterFile().update(registerValues);
+            } else if (DATA_MEMORY_FULLNAME.equals(changedWireFullname)) {
+                List<Integer> words = new ArrayList<>();
+                BigInt dataMemoryValue = change.value();
+                for (int bit = 0; bit < DataMemory.WORDS * 32; bit += 32) {
+                    int currentWordValue = 0;
+                    for (int i = bit; i < bit + 32; i++) {
+                        int bitPos = i - bit;
+                        if (dataMemoryValue.testBit(i)) {
+                            currentWordValue += 1 << bitPos;
+                        }
+                    }
+                    words.add(currentWordValue);
+                }
+                machine.getDataMemory().update(words);
             }
         }
-        machine.getRegisterFile().setAllRegisters(registerValues);
         System.out.println(machine.getRegisterFile());
+        System.out.println(machine.getDataMemory());
         cycle++;
     }
 

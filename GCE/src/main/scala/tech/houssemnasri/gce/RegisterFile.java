@@ -5,6 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class RegisterFile {
+    public static final int SIZE = 32;
     private final ObservableList<Integer> registerList = FXCollections.observableArrayList();
 
     public RegisterFile() {
@@ -17,8 +18,9 @@ public class RegisterFile {
         registerList.set(register.index(), value);
     }
 
-    public void setAllRegisters(List<Integer> updatedRegisters) {
+    public void update(List<Integer> updatedRegisters) {
         assert updatedRegisters != null && updatedRegisters.size() == 32;
+        System.out.println("Asserted");
         registerList.setAll(updatedRegisters);
     }
 
