@@ -26,4 +26,8 @@ public class MachineState {
     public void setPC(Long PC) {
         PCProperty().setValue(PC);
     }
+
+    public long getPC() {
+        return PCProperty().get();
+    }
 }

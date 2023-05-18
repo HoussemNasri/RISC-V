@@ -11,6 +11,7 @@ import treadle.vcd.VCD;
 public class Simulator {
     private static final String REGISTER_MEMORY_FULLNAME = "uut.dp.reg.registers[1023:0]";
     private static final String DATA_MEMORY_FULLNAME = "uut.dp.data_memory.words[8192:0]";
+    public static final String PC_FULLNAME = "uut.pc[31:0]";
     private static final int CLOCK_CYCLE_PERIOD = 20_000_000; // fs or 20 ns
     private final MachineState machine;
     private Program program;
@@ -89,10 +90,13 @@ public class Simulator {
                     words.add(currentWordValue);
                 }
                 machine.getDataMemory().update(words);
+            } else if (PC_FULLNAME.equals(changedWireFullname)) {
+                machine.setPC(change.value().longValue());
             }
         }
         System.out.println(machine.getRegisterFile());
         System.out.println(machine.getDataMemory());
+        System.out.println("PC: " + machine.getPC());
         cycle++;
     }
 
