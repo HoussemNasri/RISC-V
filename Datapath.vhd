@@ -54,7 +54,7 @@ ARCHITECTURE Behavioural OF Datapath IS
 			A: in signed(31 downto 0);
 			B: in signed(31 downto 0);
 			ALUControl: in std_logic_vector(2 downto 0);
-			S: out signed(31 downto 0);
+			S: inout signed(31 downto 0);
 			zeroFlag: out std_logic
 		);
 	END COMPONENT;
