@@ -5,7 +5,6 @@ use iEEE.numeric_std.all;
 -- The Entry point
 entity riscv is 
 	port (
-		PC: in unsigned(31 downto 0);
 		slowClock: in std_logic;
 		fastClock: in std_logic
 	);
@@ -21,7 +20,16 @@ architecture Behavioural of riscv is
 	 signal PCSrc    : std_logic;
 	 signal instruction: std_logic_vector(31 DOWNTO 0);
 	 signal isZero: std_logic;
+	 signal PCNext: std_logic_vector(31 DOWNTO 0);
+	 signal PC    : unsigned(31 DOWNTO 0) := x"00000000";
 begin
+
+	process(slowClock) 
+	begin
+		if(rising_edge(slowClock)) then
+			PC <= unsigned(PCNext);
+		end if;
+	end process;
 
 	dp: entity work.Datapath 
 		port map (
@@ -35,7 +43,9 @@ begin
 			ALUSrc => ALUSrc,
 			ResultSrc =>  ResultSrc,
 			PCSrc => PCSrc,
-			isZero => isZero
+			isZero => isZero,
+			PC => PC,
+			PCNext => PCNext
 		);
 		
 	cu: entity work.ControlUnit

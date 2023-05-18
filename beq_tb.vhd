@@ -20,7 +20,7 @@ begin
 
 	 UUT : entity work.Datapath 
 	 port map (clk => clk, ALUControl => ALUControl, ImmSrc => ImmSrc, MemWrite => MemWrite,
-	 RegWrite => RegWrite, ALUSrc => ALUSrc, ResultSrc => ResultSrc, fastClock => '0', PCSrc => PCSrc, isZero => isZero);
+	 RegWrite => RegWrite, ALUSrc => ALUSrc, ResultSrc => ResultSrc, fastClock => '0', PCSrc => PCSrc, isZero => isZero, PC => x"00000000", PCNext => x"00000000");
 	 
 	 clk <=  '1' after 10 ns when clk = '0' else
         '0' after 10 ns when clk = '1' else 

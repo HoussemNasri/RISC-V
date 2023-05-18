@@ -15,7 +15,9 @@ ENTITY Datapath IS
 		PCSrc    : IN std_logic;
 		fastClock: IN std_logic;
 		instruction: OUT std_logic_vector(31 DOWNTO 0);
-		isZero: OUT std_logic
+		isZero: OUT std_logic;
+		PCNext: OUT std_logic_vector(31 DOWNTO 0);
+		PC    : IN unsigned(31 DOWNTO 0)
 	);
 END;
 
@@ -88,21 +90,12 @@ ARCHITECTURE Behavioural OF Datapath IS
 	SIGNAL aluResult : signed(31 DOWNTO 0);
 	SIGNAL aluSrcB   : std_logic_vector(31 DOWNTO 0);
 	SIGNAL result    : std_logic_vector(31 DOWNTO 0);
-	SIGNAL PC        : unsigned(31 DOWNTO 0) := x"00000000";
-	SIGNAL PCNext    : std_logic_vector(31 DOWNTO 0) := x"00000000";
 	SIGNAL temp1     : std_logic_vector(31 downto 0);
 	SIGNAL temp2     : std_logic_vector(31 downto 0);
 	SIGNAL extend_out : signed(31 DOWNTO 0);
 	SIGNAL readData: std_logic_vector(31 downto 0);
  
 BEGIN
-
-	process(clk) 
-	begin
-		if(rising_edge(clk)) then
-			PC <= unsigned(PCNext);
-		end if;
-	end process;
 	
 	instruction <= currentInstruction;
 
