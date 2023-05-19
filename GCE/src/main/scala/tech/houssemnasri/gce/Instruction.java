@@ -1,23 +1,19 @@
 public class Instruction {
-    private final Integer instruction;
+    private final Data instruction;
 
-    public Instruction(Integer instruction) {
+    public Instruction(Data instruction) {
         this.instruction = instruction;
     }
 
-    public String inHex() {
+    public String toMachineCode() {
         return "";
     }
 
-    public String inBinary() {
+    public String toAssembly() {
         return "";
     }
 
-    public String inHumanReadableForm() {
-        return "";
-    }
-
-    public Integer getInstruction() {
+    public Data getInstruction() {
         return instruction;
     }
 }
