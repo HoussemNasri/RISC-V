@@ -3,13 +3,13 @@ package tech.houssemnasri.gce.ui;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import com.sun.xml.internal.messaging.saaj.packaging.mime.util.LineInputStream;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
+import tech.houssemnasri.gce.Data;
 import tech.houssemnasri.gce.Instruction;
 
 public class MainView implements Initializable {
@@ -23,12 +23,24 @@ public class MainView implements Initializable {
     @FXML
     private TableView<Instruction> instructionsTableView;
     @FXML
-    private TabPane sideTabpane;
+    private TabPane sidePane;
     private RegistersViewer registersViewer;
     private MemoryViewer memoryViewer;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        initializeInstructionsTableView();
+        initializeSidePane();
+    }
+
+    private void initializeSidePane() {
+        Tab registersTab = new Tab("Registers", new Label("Show all planes available"));
+        Tab memoryTab = new Tab("Memory", new Label("Show all cars available"));
+
+        sidePane.getTabs().addAll(registersTab, memoryTab);
+    }
+
+    private void initializeInstructionsTableView() {
         TableColumn<Instruction, String> instructionAddressColumn = new TableColumn<>(ADDRESS_COLUMN);
         TableColumn<Instruction, String> instructionMachineCodeColumn = new TableColumn<>(MACHINE_CODE_COLUMN);
         TableColumn<Instruction, String> instructionAssemblyColumn = new TableColumn<>(ASSEMBLY_CODE_COLUMN);
@@ -43,6 +55,11 @@ public class MainView implements Initializable {
         instructionsTableView.getColumns()
                 .addAll(instructionAddressColumn, instructionMachineCodeColumn, instructionAssemblyColumn);
 
+        instructionsTableView.getItems().addAll(
+                new Instruction(Data.fromInt(4485565), Data.fromInt(5541665)),
+                new Instruction(Data.fromInt(4485565), Data.fromInt(5541665)),
+                new Instruction(Data.fromInt(4485565), Data.fromInt(5541665))
+        );
     }
 
 

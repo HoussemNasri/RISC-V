@@ -13,7 +13,7 @@ public class Data {
     }
 
     public String hex() {
-        return "";
+        return "0xF12654E1";
     }
 
     public String decimal() {

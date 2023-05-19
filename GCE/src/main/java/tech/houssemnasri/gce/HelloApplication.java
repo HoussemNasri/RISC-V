@@ -1,16 +1,28 @@
 package tech.houssemnasri.gce;
 
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 
 public class HelloApplication extends Application {
     @Override
-    public void start(Stage stage) {
-        AnchorPane root = new AnchorPane();
+    public void start(Stage stage) throws URISyntaxException, MalformedURLException {
+        Parent root;
 
-        Scene scene = new Scene(root, 320, 240);
+        try {
+            root = FXMLLoader.load(getClass().getResource("ui/MainView.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        Scene scene = new Scene(root, 1350, 700);
+        scene.getStylesheets().add(getClass().getResource("App.css").toExternalForm());
         stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.close();
@@ -41,6 +53,6 @@ public class HelloApplication extends Application {
             exception.printStackTrace();
             System.out.println("Couldn't parse VCD file " + exception);
         }
-        // launch();
+        launch();
     }
 }
