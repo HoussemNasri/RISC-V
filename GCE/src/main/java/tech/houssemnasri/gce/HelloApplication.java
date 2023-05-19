@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import tech.houssemnasri.gce.ui.MainView;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -13,15 +14,11 @@ import java.net.URISyntaxException;
 public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws URISyntaxException, MalformedURLException {
-        Parent root;
+        GHDLInteractor ghdlInteractor = new GHDLInteractor();
+        Simulator simulator = new Simulator(null, ghdlInteractor);
+        MainView mainView = new MainView(simulator);
 
-        try {
-            root = FXMLLoader.load(getClass().getResource("ui/MainView.fxml"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        Scene scene = new Scene(root, 1350, 700);
+        Scene scene = new Scene(mainView, 1350, 700);
         scene.getStylesheets().add(getClass().getResource("App.css").toExternalForm());
         stage.setTitle("Hello!");
         stage.setScene(scene);

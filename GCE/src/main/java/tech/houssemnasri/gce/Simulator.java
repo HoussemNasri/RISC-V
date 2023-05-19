@@ -43,8 +43,6 @@ public class Simulator {
         }
 
         resetMachine();
-        updateMachineState();
-        updateMachineState();
 
         for (Set<Change> values : valuesAtCycle) {
             System.out.println(values);
@@ -54,11 +52,13 @@ public class Simulator {
     }
 
     public void stepIn() {
-
+        cycle++;
+        updateMachineState();
     }
 
     public void stepOut() {
-
+        cycle--;
+        updateMachineState();
     }
 
     private void updateMachineState() {
@@ -99,11 +99,14 @@ public class Simulator {
         System.out.println(machine.getRegisterFile());
         System.out.println(machine.getDataMemory());
         System.out.println("PC: " + machine.getPC());
-        cycle++;
     }
 
     private void resetMachine() {
         cycle = 0;
         updateMachineState();
+    }
+
+    public MachineState getMachine() {
+        return machine;
     }
 }
