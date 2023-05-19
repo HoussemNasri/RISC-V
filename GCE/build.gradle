@@ -21,7 +21,6 @@ tasks.withType(JavaCompile) {
 }
 
 application {
-    /*mainModule = 'tech.houssemnasri.gce'*/
     mainClass = 'tech.houssemnasri.gce.HelloApplication'
 }
 

@@ -1,4 +1,10 @@
 package tech.houssemnasri.gce.ui;
 
-public class RegistersViewer {
+import javafx.scene.layout.VBox;
+
+public class RegistersViewer extends VBox {
+
+    public RegistersViewer() {
+
+    }
 }
