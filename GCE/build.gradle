@@ -1,8 +1,5 @@
 plugins {
-    id 'scala'
     id 'application'
-    /*id 'org.javamodularity.moduleplugin' version '1.8.12'*/
-    /*id 'org.beryx.jlink' version '2.25.0'*/
 }
 
 group 'tech.houssemnasri.gce'
@@ -25,18 +22,14 @@ tasks.withType(JavaCompile) {
 
 application {
     /*mainModule = 'tech.houssemnasri.gce'*/
-    mainClass = 'HelloApplication'
+    mainClass = 'tech.houssemnasri.gce.HelloApplication'
 }
 
 dependencies {
-    implementation 'org.scala-lang:scala-library:2.13.0'
-    testImplementation 'org.scalatest:scalatest_2.11:3.0.0'
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
 
-    // https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
-    implementation 'ch.qos.logback:logback-classic:1.2.11'
-    implementation 'com.typesafe.scala-logging:scala-logging_3:3.9.5'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 }
 run {
     enableAssertions = true
