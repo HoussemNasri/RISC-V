@@ -42,7 +42,7 @@ public class Simulator {
             valuesAtCycle.add(JavaConverters.asJava(scalaChangesSet));
         }
 
-        resetMachine();
+        reset();
 
         for (Set<Change> values : valuesAtCycle) {
             System.out.println(values);
@@ -52,13 +52,21 @@ public class Simulator {
     }
 
     public void stepIn() {
-        cycle++;
-        updateMachineState();
+        if (cycle + 1 > cyclesCount) {
+            System.out.println("Program finished!");
+        } else {
+            cycle++;
+            updateMachineState();
+        }
     }
 
     public void stepOut() {
-        cycle--;
-        updateMachineState();
+        if (cycle - 1 < 0) {
+            System.out.println("Program cannot go back!");
+        } else {
+            cycle--;
+            updateMachineState();
+        }
     }
 
     private void updateMachineState() {
@@ -101,7 +109,7 @@ public class Simulator {
         System.out.println("PC: " + machine.getPC());
     }
 
-    private void resetMachine() {
+    public void reset() {
         cycle = 0;
         updateMachineState();
     }

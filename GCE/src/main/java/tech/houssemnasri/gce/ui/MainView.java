@@ -36,6 +36,7 @@ public class MainView extends AnchorPane implements Initializable {
     public MainView(Simulator simulator) {
         loadView();
         this.simulator = simulator;
+        instructionsTableView.setDisable(true);
 
         instructionsTableView.getSelectionModel().select(0);
         this.simulator.getMachine().PCProperty().addListener((observable, old, value) -> {
@@ -108,5 +109,10 @@ public class MainView extends AnchorPane implements Initializable {
     @FXML
     void runPreviousInstruction(ActionEvent event) {
         simulator.stepOut();
+    }
+
+    @FXML
+    void resetSimulation(ActionEvent event) {
+        simulator.reset();
     }
 }
