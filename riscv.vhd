@@ -31,7 +31,7 @@ begin
 		end if;
 	end process;
 
-	dp: entity work.Datapath 
+	dp: entity work.Datapath
 		port map (
 			clk => slowClock,
 			fastClock => fastClock,

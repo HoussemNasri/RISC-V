@@ -1,6 +1,8 @@
 library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
+use STD.textio.all;
+use ieee.std_logic_textio.all;
 
 -- The Instruction Memory
 entity InstrMemory is 
@@ -12,13 +14,30 @@ end;
 
 architecture Behavioural of InstrMemory is
 	type MemoryType is array (0 to 500) of std_logic_vector(31 downto 0);
-	signal memory: MemoryType := (
-		0 => x"0004A303", -- lw x6, 0(x9)
-		4 => x"0064A423", -- sw x6, 8(x9)
-		24 => x"FE420AE3",
-	others => x"00000000"); -- Update instructions to cope with the new flat data memory
+	
+	impure function init_instrs_hex return MemoryType is 
+		file program_file: text;
+		variable F_LINE, my_line: line;
+		variable F_INSTR: std_logic_vector(31 downto 0);
+		variable line_number: integer := 0;
+		variable result: MemoryType;
+	begin 
+		file_open(program_file, "program.txt", read_mode);
+		while (line_number) < 100 and (not endfile(program_file)) loop 
+			readline(program_file, F_LINE);
+			Hread(F_LINE, F_INSTR);
+			result(line_number) := F_INSTR;
+			-- hwrite(my_line, F_INSTR);
+         -- writeline(output, my_line); -- Writes instruction to console
+			line_number := line_number + 1;
+		end loop;
+		file_close(program_file);
+		return result;
+	end function;
+	
+	signal memory: MemoryType := init_instrs_hex;
 begin
-
+	
 	instr <= memory(to_integer(PCNext));
 	
 end; 
