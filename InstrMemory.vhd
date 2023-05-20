@@ -26,7 +26,7 @@ architecture Behavioural of InstrMemory is
 		while (line_number) < 100 and (not endfile(program_file)) loop 
 			readline(program_file, F_LINE);
 			Hread(F_LINE, F_INSTR);
-			result(line_number) := F_INSTR;
+			result(line_number * 4) := F_INSTR;
 			-- hwrite(my_line, F_INSTR);
          -- writeline(output, my_line); -- Writes instruction to console
 			line_number := line_number + 1;
