@@ -16,7 +16,7 @@ public class GHDLInteractor {
 
     private final Path cpuVHDLFilesPath = Paths.get("C:\\Users\\Houssem\\Desktop\\GHDL-Testing\\cpu");
     private final String topEntity = "riscv_tb";
-    private final String vcdWaveformFilePath = "abcd.vcd";
+    private final String vcdWaveformFilePath = "aibcd.vcd";
     private final Long stopTimeInNanoseconds = 500L; // 2 cycles
 
     public VCD run(Program program) {
@@ -24,9 +24,9 @@ public class GHDLInteractor {
         String analyzeCommand = buildAnalyzeCommand(vhdlFileNames);
         String elaborateCommand = buildElaborateCommand();
         String runCommand = buildRunCommand();
-        System.out.println(analyzeCommand);
 
         Runtime runtime = Runtime.getRuntime();
+        System.out.println(analyzeCommand);
         try {
             Process analyzeProcess = runtime.exec(analyzeCommand, null, cpuVHDLFilesPath.toFile());
             analyzeProcess.waitFor();
@@ -35,6 +35,7 @@ public class GHDLInteractor {
             throw new RuntimeException("Failed to execute GHDL command: " + analyzeCommand, e);
         }
 
+        System.out.println(elaborateCommand);
         try {
             Process elaborateProcess = runtime.exec(elaborateCommand, null, cpuVHDLFilesPath.toFile());
             elaborateProcess.waitFor();
@@ -43,10 +44,12 @@ public class GHDLInteractor {
             throw new RuntimeException("Failed to execute GHDL command: " + elaborateCommand, e);
         }
 
+        System.out.println(runCommand);
         try {
             Process runProcess = runtime.exec(runCommand, null, cpuVHDLFilesPath.toFile());
+            printInputStream(runProcess.getInputStream());
             runProcess.waitFor();
-            printInputStream(runProcess.getErrorStream());
+            System.out.println("Finished running");
         } catch (Exception e) {
             throw new RuntimeException("Failed to execute GHDL command: " + runCommand, e);
         }
@@ -76,7 +79,7 @@ public class GHDLInteractor {
     }
 
     private String buildAnalyzeCommand(List<String> vhdlFileNames) {
-        StringBuilder analyzeCommandBuilder = new StringBuilder("ghdl -a");
+        StringBuilder analyzeCommandBuilder = new StringBuilder("ghdl -a --ieee=synopsys");
 
         for (String vhdlFile : vhdlFileNames) {
             analyzeCommandBuilder.append(" ").append(vhdlFile);
@@ -86,11 +89,11 @@ public class GHDLInteractor {
     }
 
     private String buildElaborateCommand() {
-        return "ghdl -e " + topEntity;
+        return "ghdl -e -fsynopsys " + topEntity;
     }
 
     private String buildRunCommand() {
-        return "ghdl -r " + topEntity +
+        return "ghdl -r -fsynopsys " + topEntity +
                 " --vcd=" + vcdWaveformFilePath +
                 " --stop-time=" + stopTimeInNanoseconds + "ns";
     }
