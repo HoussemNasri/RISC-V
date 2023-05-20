@@ -36,12 +36,14 @@ public class MainView extends AnchorPane implements Initializable {
     public MainView(Simulator simulator) {
         loadView();
         this.simulator = simulator;
-        instructionsTableView.setDisable(true);
+        instructionsTableView.setEditable(true);
 
         instructionsTableView.getSelectionModel().select(0);
         this.simulator.getMachine().PCProperty().addListener((observable, old, value) -> {
             instructionsTableView.getSelectionModel().select((int) (value.longValue() / 4));
         });
+
+        initializeSidePane();
     }
 
     private void loadView() {
@@ -58,14 +60,15 @@ public class MainView extends AnchorPane implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initializeInstructionsTableView();
-        initializeSidePane();
     }
 
     private void initializeSidePane() {
-        Tab registersTab = new Tab("Registers", new Label("Show all planes available"));
+        Tab registersTab = new Tab("Registers");
         Tab memoryTab = new Tab("Memory", new Label("Show all cars available"));
+        registersTab.setContent(new RegistersViewer(simulator.getMachine().getRegisterFile()));
 
         sidePane.getTabs().addAll(registersTab, memoryTab);
+
     }
 
     private void initializeInstructionsTableView() {
@@ -82,6 +85,7 @@ public class MainView extends AnchorPane implements Initializable {
 
         instructionsTableView.getColumns()
                 .addAll(instructionAddressColumn, instructionMachineCodeColumn, instructionAssemblyColumn);
+        instructionsTableView.setDisable(true);
 
         instructionsTableView.getItems().addAll(
                 new Instruction(Data.fromInt(4485565), Data.fromInt(5541665)),

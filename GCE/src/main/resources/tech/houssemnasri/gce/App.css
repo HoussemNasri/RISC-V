@@ -398,6 +398,10 @@ TextFlow > .tooltip-text-monospaced {
     -fx-background-color: derive(-fx-default-button, -20%);
 }
 
+.text-field {
+    -fx-font-size: 18px;
+}
+
 .text-button {
     -fx-border-width: 0px;
 }
