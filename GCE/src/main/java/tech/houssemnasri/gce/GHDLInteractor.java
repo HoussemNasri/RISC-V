@@ -14,9 +14,9 @@ import treadle.vcd.VCD;
 
 public class GHDLInteractor {
 
-    private final Path cpuVHDLFilesPath = Paths.get("C:\\Users\\Houssem\\Desktop\\GHDL-Testing\\cpu");
+    public static final Path SIMULATION_WORK_DIRECTORY = Paths.get("C:\\Users\\Houssem\\Desktop\\GHDL-Testing\\cpu");
     private final String topEntity = "riscv_tb";
-    private final String vcdWaveformFilePath = "aibcd.vcd";
+    private final String vcdWaveformFilePath = "abcd.vcd";
     private final Long stopTimeInNanoseconds = 500L; // 2 cycles
 
     public VCD run(Program program) {
@@ -28,7 +28,7 @@ public class GHDLInteractor {
         Runtime runtime = Runtime.getRuntime();
         System.out.println(analyzeCommand);
         try {
-            Process analyzeProcess = runtime.exec(analyzeCommand, null, cpuVHDLFilesPath.toFile());
+            Process analyzeProcess = runtime.exec(analyzeCommand, null, SIMULATION_WORK_DIRECTORY.toFile());
             analyzeProcess.waitFor();
             printInputStream(analyzeProcess.getErrorStream());
         } catch (Exception e) {
@@ -37,7 +37,7 @@ public class GHDLInteractor {
 
         System.out.println(elaborateCommand);
         try {
-            Process elaborateProcess = runtime.exec(elaborateCommand, null, cpuVHDLFilesPath.toFile());
+            Process elaborateProcess = runtime.exec(elaborateCommand, null, SIMULATION_WORK_DIRECTORY.toFile());
             elaborateProcess.waitFor();
             printInputStream(elaborateProcess.getErrorStream());
         } catch (Exception e) {
@@ -46,15 +46,16 @@ public class GHDLInteractor {
 
         System.out.println(runCommand);
         try {
-            Process runProcess = runtime.exec(runCommand, null, cpuVHDLFilesPath.toFile());
+            Process runProcess = runtime.exec(runCommand, null, SIMULATION_WORK_DIRECTORY.toFile());
             printInputStream(runProcess.getInputStream());
+            printInputStream(runProcess.getErrorStream());
             runProcess.waitFor();
             System.out.println("Finished running");
         } catch (Exception e) {
             throw new RuntimeException("Failed to execute GHDL command: " + runCommand, e);
         }
 
-        return VCD.read(cpuVHDLFilesPath.resolve(vcdWaveformFilePath).toString(), "", "", "", "");
+        return VCD.read(SIMULATION_WORK_DIRECTORY.resolve(vcdWaveformFilePath).toString(), "", "", "", "");
     }
 
     private void printInputStream(InputStream stream) {
@@ -69,7 +70,7 @@ public class GHDLInteractor {
     }
 
     public List<String> getVHDLFileNames() {
-        try (Stream<Path> vhdlFiles = Files.find(cpuVHDLFilesPath, 1, (p, attrs) -> p.toString().endsWith(".vhd") || p.toString().endsWith(".vhdl"))) {
+        try (Stream<Path> vhdlFiles = Files.find(SIMULATION_WORK_DIRECTORY, 1, (p, attrs) -> p.toString().endsWith(".vhd") || p.toString().endsWith(".vhdl"))) {
             return vhdlFiles.map(Path::getFileName)
                             .map(Path::toString)
                             .collect(Collectors.toList());

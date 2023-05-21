@@ -29,6 +29,14 @@ public class MainView extends AnchorPane implements Initializable {
     private TableView<Instruction> instructionsTableView;
     @FXML
     private TabPane sidePane;
+    @FXML
+    private Button nextButton;
+
+    @FXML
+    private Button previousButton;
+
+    @FXML
+    private Button runPauseButton;
     private RegistersViewer registersViewer;
     private MemoryViewer memoryViewer;
     private Simulator simulator;
@@ -40,10 +48,23 @@ public class MainView extends AnchorPane implements Initializable {
 
         instructionsTableView.getSelectionModel().select(0);
         this.simulator.getMachine().PCProperty().addListener((observable, old, value) -> {
-            instructionsTableView.getSelectionModel().select((int) (value.longValue() / 4));
+            if (value.intValue() / 4 >= instructionsTableView.getItems().size()) {
+                previousButton.setDisable(true);
+                nextButton.setDisable(true);
+                runPauseButton.setDisable(true);
+                instructionsTableView.getSelectionModel().clearSelection();
+
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Program Simulation Finished");
+                alert.setHeaderText("Program simulation finished. Click reset to start over");
+                alert.show();
+            } else {
+                instructionsTableView.getSelectionModel().select((int) (value.longValue() / 4));
+            }
         });
 
         initializeSidePane();
+        initializeInstructionsTableView();
     }
 
     private void loadView() {
@@ -59,7 +80,7 @@ public class MainView extends AnchorPane implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        initializeInstructionsTableView();
+
     }
 
     private void initializeSidePane() {
@@ -87,11 +108,8 @@ public class MainView extends AnchorPane implements Initializable {
                 .addAll(instructionAddressColumn, instructionMachineCodeColumn, instructionAssemblyColumn);
         instructionsTableView.setDisable(true);
 
-        instructionsTableView.getItems().addAll(
-                new Instruction(Data.fromInt(4485565), Data.fromInt(5541665)),
-                new Instruction(Data.fromInt(4485565), Data.fromInt(5541665)),
-                new Instruction(Data.fromInt(4485565), Data.fromInt(5541665))
-        );
+        instructionsTableView.getItems().addAll(simulator.getProgram().getInstructions());
+        instructionsTableView.getSelectionModel().select(0);
     }
 
 
@@ -117,6 +135,9 @@ public class MainView extends AnchorPane implements Initializable {
 
     @FXML
     void resetSimulation(ActionEvent event) {
+        previousButton.setDisable(false);
+        nextButton.setDisable(false);
+        runPauseButton.setDisable(false);
         simulator.reset();
     }
 }

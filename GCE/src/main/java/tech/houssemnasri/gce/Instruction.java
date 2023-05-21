@@ -10,7 +10,7 @@ public class Instruction {
     }
 
     public String toMachineCode() {
-        return "0x4A166E10";
+        return instruction.hex();
     }
 
     public String toAssembly() {

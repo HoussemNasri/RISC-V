@@ -26,9 +26,9 @@
                                 <ButtonBar buttonMinWidth="100.0" HBox.hgrow="NEVER">
                                     <buttons>
                               <Button maxWidth="56.0" mnemonicParsing="false" onAction="#resetSimulation" text="Reset" />
-                                        <Button mnemonicParsing="false" onAction="#runPreviousInstruction" text="Previous" />
-                                        <Button mnemonicParsing="false" onAction="#runOrPauseSimulation" text="Run/Pause" />
-                                        <Button mnemonicParsing="false" onAction="#runNextInstruction" text="Next" />
+                                        <Button fx:id="previousButton" mnemonicParsing="false" onAction="#runPreviousInstruction" text="Previous" />
+                                        <Button fx:id="runPauseButton" mnemonicParsing="false" onAction="#runOrPauseSimulation" text="Run/Pause" />
+                                        <Button fx:id="nextButton" mnemonicParsing="false" onAction="#runNextInstruction" text="Next" />
                                     </buttons>
                                 </ButtonBar>
                             </children>

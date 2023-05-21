@@ -1,5 +1,6 @@
 package tech.houssemnasri.gce;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -20,20 +21,16 @@ public class Simulator {
     // Element 0 refer to the initial values before any cycles
     private final List<Set<Change>> valuesAtCycle = new ArrayList<>();
     private final long cyclesCount;
-    private int cycle = 1;
+    private int cycle;
 
     public Simulator(Program program, GHDLInteractor ghdlInteractor) {
-        this.program = program;
+        this.program = Program.fromFile(GHDLInteractor.SIMULATION_WORK_DIRECTORY.resolve("program.txt").toFile());
         this.machine = new MachineState();
 
         VCD vcd = ghdlInteractor.run(program);
 
-        long maxRecordedTime = (long) vcd.valuesAtTime().keys().map(o -> (Long) o).max(new Ordering<Long>() {
-            @Override
-            public int compare(java.lang.Long x, java.lang.Long y) {
-                return Long.compare(x, y);
-            }
-        });
+        long maxRecordedTime = (long) vcd.valuesAtTime()
+                .keys().map(o -> (Long) o).max((Ordering<Long>) Long::compare);
 
         cyclesCount = maxRecordedTime / CLOCK_CYCLE_PERIOD;
         valuesAtCycle.add(JavaConverters.asJava(vcd.initialValues()));
@@ -116,5 +113,9 @@ public class Simulator {
 
     public MachineState getMachine() {
         return machine;
+    }
+
+    public Program getProgram() {
+        return program;
     }
 }
