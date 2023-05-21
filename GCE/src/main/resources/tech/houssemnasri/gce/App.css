@@ -254,36 +254,6 @@
     -jr-header-height: 3em;
 }
 
-.unchanged {
-    -rtfx-background-color: #0000;
-}
-
-.updated {
-    -rtfx-background-color: rgba(41, 166, 236, 0.66);
-}
-
-.addition {
-    -rtfx-background-color: rgba(29, 209, 161, 0.5);
-}
-
-.deletion {
-    -rtfx-background-color: rgba(255, 107, 107, 0.55);
-}
-
-
-#frame {
-    -fx-background-color: -jr-background-alt;
-}
-
-/*
- * The base css file defining the style that is valid for every pane and dialog.
- */
-
-TextFlow > * {
-    -fx-fill: -fx-text-background-color;
-}
-
-TextFlow > .hyperlink,
 .hyperlink {
     -fx-padding: 0;
     -fx-underline: false;
@@ -293,30 +263,13 @@ TextFlow > .hyperlink,
     -fx-fill: -jr-theme;
 }
 
-TextFlow > .hyperlink:visited,
 .hyperlink:visited {
     -fx-text-fill: -jr-accent;
     -fx-fill: -jr-accent;
 }
 
-.TextFlow > .hyperlink:hover,
 .hyperlink:hover {
     -fx-underline: true;
-}
-
-
-.glyph-icon {
-    /* This adjusts text alignment within the bounds of text nodes so that
-       the text is always vertically centered within the bounds. Based on
-       the cap height of the text. */
-    -fx-bounds-type: logical_vertical_center;
-
-    /* The base color of icons should always be the same as the text. */
-    -fx-fill: -fx-text-base-color;
-}
-
-.ikonli-font-icon {
-    -fx-icon-color: -fx-text-base-color;
 }
 
 .tooltip {
@@ -329,19 +282,6 @@ TextFlow > .hyperlink:visited,
 .tooltip > TextFlow > Text {
     -fx-font-size: 1em;
 }
-
-TextFlow > .tooltip-text-bold {
-    -fx-font-weight: bold;
-}
-
-TextFlow > .tooltip-text-italic {
-    -fx-font-style: italic;
-}
-
-TextFlow > .tooltip-text-monospaced {
-    -fx-font-family: monospace;
-}
-
 
 .radio-button > .radio,
 .check-box > .box {
@@ -647,10 +587,6 @@ TextFlow > .tooltip-text-monospaced {
     -fx-background-insets: 0;
 }
 
-.split-pane > .split-pane-divider {
-    -fx-background-color: -jr-sidepane-background;
-    -fx-padding: 0 .5 0 .5;
-}
 
 .table-row-cell:hover,
 .tree-table-row-cell:hover {
@@ -669,32 +605,6 @@ TextFlow > .tooltip-text-monospaced {
 .tree-table-view > .virtual-flow > .clipped-container > .sheet > .tree-table-row-cell .tree-table-cell:selected {
     -fx-border-color: transparent;
     -fx-background-insets: 0;
-}
-
-.merge-field-value .action-icon {
-    -fx-blend-mode: multiply;
-    -fx-opacity: 69%;
-    -fx-icon-size: 14;
-    -fx-icon-color: -fx-text-background-color;
-}
-
-.merge-field-value:disabled .action-icon {
-    -fx-opacity: 0%;
-}
-
-.merge-header-cell {
-    -fx-border-width: 0 0 1 0;
-    -fx-border-color: -jr-gray-1;
-    -fx-background-color: -jr-row-even-background;
-}
-
-.merge-header {
-    -fx-background-color: -jr-row-even-background;
-}
-
-.lib-change-header {
-    -fx-font-size: 130%;
-    -fx-padding: 0.2em 0em 0.2em 0.2em;
 }
 
 .table-view .groupColumnBackground {
@@ -802,22 +712,6 @@ TextFlow > .tooltip-text-monospaced {
     -fx-padding: 0;
 }
 
-.accordion .titled-pane {
-    -fx-skin: "org.jabref.gui.util.CustomTitledPaneSkin";
-    -fx-arrow-side: right;
-}
-
-.accordion .titled-pane .title {
-    -fx-background-color: transparent;
-    -fx-border-color: transparent;
-    -fx-background-insets: 5 5 5 5;
-}
-
-.accordion .titled-pane > *.content {
-    -fx-background-color: transparent;
-    -fx-border-color: transparent;
-}
-
 /*
  * The arrow button has some right padding that's added
  * by "modena.css". This simply puts the padding on the
@@ -840,46 +734,18 @@ TextFlow > .tooltip-text-monospaced {
     -fx-highlight-text-fill: -fx-text-inner-color;
 }
 
-.text-area {
-    -fx-background-color: -fx-control-inner-background;
-}
 
-.text-area .content {
-    -fx-background-color: -fx-outer-border, -fx-control-inner-background;
-    -fx-background-insets: 0, 1;
-    -fx-padding: 0.333333em 0.583em 0.333333em 0.583em;
-    -fx-background-radius: 0;
-}
-
-.text-area:focused .content {
-    -fx-background-color: -jr-accent, -fx-control-inner-background;
-    -fx-background-insets: 0, 2;
-    -fx-background-radius: 0;
-}
-
-.text-area > .scroll-pane > .corner {
-    -fx-background-radius: 0 0 0 0;
-    -fx-background-color: -fx-background;
-}
-
-.combo-box-base:editable > .text-field,
-.date-picker > .text-field {
+.combo-box-base:editable > .text-field {
     -fx-background-color: -fx-outer-border, -fx-control-inner-background;
     -fx-background-insets: 0, 1;
     -fx-background-radius: 0;
 }
 
 .combo-box-base:editable:focused > .text-field,
-.combo-box-base:editable > .text-field:focused,
-.date-picker > .text-field:focused {
+.combo-box-base:editable > .text-field:focused {
     -fx-background-color: -jr-accent, -fx-control-inner-background;
     -fx-background-insets: 0, 2;
     -fx-background-radius: 0;
-}
-
-.date-picker:focused > .text-field {
-    -fx-background-color: -fx-control-inner-background;
-    -fx-background-insets: 0;
 }
 
 .scroll-bar {
@@ -947,80 +813,6 @@ TextFlow > .tooltip-text-monospaced {
     -fx-opacity: 1;
 }
 
-.sidePaneComponentHeader {
-    -fx-background-color: -jr-sidepane-header-background;
-    -fx-padding: 0.3em 0.9em 0.3em 0.9em;
-    -fx-pref-height: -jr-header-height;
-}
-
-.sidePaneComponentHeader > .label {
-    -fx-text-fill: -jr-sidepane-header-color;
-    -fx-font-weight: bold;
-    -fx-padding: 0.3em 0.9em 0.3em 0.9em;
-}
-
-.sidePaneComponentHeader .glyph-icon,
-.sidePaneComponentHeader .ikonli-font-icon {
-    -fx-fill: -jr-sidepane-header-color;
-    -fx-text-fill: -jr-sidepane-header-color;
-    -fx-font-size: 16px;
-    -fx-icon-color: -jr-theme-text;
-}
-
-.mainMenu {
-    -fx-background-color: -jr-menu-background;
-    -fx-background-insets: 0;
-}
-
-.menu-bar > .container {
-    -fx-border-width: 0;
-}
-
-.menu-bar > .container > .menu-button:hover,
-.menu-bar > .container > .menu-button:focused,
-.menu-bar > .container > .menu-button:showing {
-    -fx-background-color: -jr-menu-background-active;
-    -fx-background: -jr-menu-background-active;
-}
-
-.menu-bar > .container > .menu-button:hover > .label,
-.menu-bar > .container > .menu-button:focused > .label,
-.menu-bar > .container > .menu-button:showing > .label {
-    -fx-text-fill: -jr-menu-forground-active;
-}
-
-.mainMenu > .container > .menu-button > .label {
-    -fx-text-fill: -jr-menu-foreground;
-}
-
-.menu-item > .label {
-    -fx-text-fill: -jr-menu-item-foreground;
-}
-
-.menu-item:focused {
-    -fx-text-fill: -jr-menu-background-active;
-    -fx-background: -jr-menu-background-active;
-    -fx-background-color: -jr-menu-background-active;
-}
-
-.menu-item:focused > .label {
-    -fx-text-fill: -jr-menu-forground-active;
-}
-
-.menu-item .glyph-icon {
-    -fx-fill: -jr-menu-item-foreground;
-    -fx-text-fill: -jr-menu-item-foreground;
-}
-
-.menu-item:focused .glyph-icon {
-    -fx-fill: -jr-menu-forground-active;
-    -fx-text-fill: -jr-menu-forground-active;
-}
-
-.context-menu {
-    -fx-border-color: -fx-outer-border;
-    -fx-border-width: 1;
-}
 
 .separator:horizontal .line {
     -fx-border-color: -jr-separator;
@@ -1034,76 +826,6 @@ TextFlow > .tooltip-text-monospaced {
     -fx-border-insets: 5 15 5 15;
 }
 
-.mainToolbar {
-    -fx-background-color: -jr-toolbar;
-    -fx-border-color: derive(-jr-toolbar, 50%);
-    -fx-border-width: 0;
-}
-
-.mainToolbar .glyph-icon,
-.mainToolbar .ikonli-font-icon {
-    -fx-font-size: 1.7em;
-    -fx-fill: -jr-theme-text;
-    -fx-text-fill: -jr-theme-text;
-    -fx-icon-color: -jr-theme-text;
-}
-
-.mainToolbar .search-field {
-    -fx-background-color: -jr-search-background;
-    -fx-border-width: 1;
-    -fx-border-color: -jr-separator;
-    -fx-border-radius: 2;
-    -fx-fill: -jr-search-text;
-}
-
-.mainToolbar .search-field .button .glyph-icon {
-    -fx-fill: -jr-search-text;
-    -fx-text-fill: -jr-search-text;
-    -fx-icon-color: -jr-search-text;
-}
-
-/* magnifier glass */
-.mainToolbar .search-field .glyph-icon {
-    -fx-fill: -jr-search-text;
-    -fx-text-fill: -jr-search-text;
-}
-
-/* search modifier buttons */
-.mainToolbar .search-field .toggle-button:selected {
-    -fx-background-color: transparent;
-}
-
-.mainToolbar .search-field .toggle-button:hover,
-.mainToolbar .search-field .toggle-button:selected:hover {
-    -fx-background-color: -jr-icon-background-active;
-}
-
-.mainToolbar .search-field .toggle-button .glyph-icon {
-    -fx-fill: derive(-jr-search-text, 80%);
-    -fx-text-fill: derive(-jr-search-text, 80%);
-    -fx-icon-color: derive(-jr-search-text, 80%);
-}
-
-.mainToolbar .search-field .toggle-button:selected .glyph-icon {
-    -fx-fill: -jr-search-text;
-    -fx-text-fill: -jr-search-text;
-    -fx-icon-color: -jr-search-text;
-}
-
-/* search text */
-.mainToolbar .search-field .label {
-    -fx-padding: 0em 1.8em 0em 0em;
-}
-
-/* The little arrow that shows up when not all tool-bar icons fit into the tool-bar.
-We want to have a look that matches our icons in the tool-bar */
-.mainToolbar .tool-bar-overflow-button > .arrow {
-    -fx-background-color: -jr-theme-text;
-}
-
-.mainToolbar .tool-bar-overflow-button:hover > .arrow {
-    -fx-background-color: -fx-mark-highlight-color, derive(-jr-theme-text, -30%);
-}
 
 .table-view,
 .tree-table-view {
@@ -1174,22 +896,6 @@ We want to have a look that matches our icons in the tool-bar */
     -fx-border-color: -jr-drag-target;
     -fx-border-width: 2 0 0 0;
     -fx-padding: -2 0 0 0;
-}
-
-/* Improve the context menu of the main toolbar, when icons don't fit and you have to press the little arrow to see them */
-.mainToolbar .context-menu .glyph-icon {
-    -fx-fill: -jr-theme-text;
-}
-
-.mainToolbar .context-menu .glyph-icon:hover {
-    -fx-fill: -jr-menu-forground-active;
-    -fx-text-fill: -jr-menu-forground-active;
-    -fx-background-color: -jr-icon-background-active; /* TODO: This has no effect */
-}
-
-/* This is awful, but I don't know a better way*/
-.mainToolbar .context-menu * {
-    -fx-background-color: -fx-control-inner-background;
 }
 
 .label:disabled,
