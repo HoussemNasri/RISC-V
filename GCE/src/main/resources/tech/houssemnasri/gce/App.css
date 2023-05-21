@@ -2,17 +2,9 @@
 .root {
     -jr-row-odd-background: -fx-control-inner-background-alt;
     -jr-row-even-background: -fx-control-inner-background;
-    /*
-    On light theme, the text is hard to see when it's on top of the accent color. This is an alternative lighter accent color
-    for better text visibility.
-    */
+
     -jr-accent-alt: derive(-jr-accent, 15%);
 
-    /*
-    The theme color and some derived colors from it are used for icons, tab-headers, marking of selected inputs and
-    hover colors for the main menu. It generally defines the look of JabRef. The highlighting colors below should
-    work nicely with this base color
-    */
 
     /* This theme is the original JabRef dark blue color */
     -jr-theme: #50618F;
@@ -110,38 +102,14 @@
     -js-summary-text-color: #000000;
     -js-summary-text-color-selected: #000000;
 
-    /*
-     Here are redefinitions of the default properties of modena. They should in principle all be derived from the
-     above colors. Goal should be to make as few as possible direct color-changes to elements and only do this for
-     very specific purposes.
-     */
     -fx-base: -jr-base;
 
-    /* A very light grey used for the background of windows.  See also
-     * -fx-text-background-color, which should be used as the -fx-text-fill
-     * value for text painted on top of backgrounds colored with -fx-background.
-     */
     -fx-background: derive(-fx-base, 26.4%);
 
-    /* Used for the inside of text boxes, password boxes, lists, trees, and
-     * tables.  See also -fx-text-inner-color, which should be used as the
-     * -fx-text-fill value for text painted on top of backgrounds colored
-     * with -fx-control-inner-background.
-     */
     -fx-control-inner-background: derive(-fx-base, 95%);
     /* Version of -fx-control-inner-background for alternative rows */
     -fx-control-inner-background-alt: derive(-fx-control-inner-background, -6%);
 
-    /* One of these colors will be chosen based upon a ladder calculation
-     * that uses the brightness of a background color.  Instead of using these
-     * colors directly as -fx-text-fill values, the sections in this file should
-     * use a derived color to match the background in use.  See also:
-     *
-     * -fx-text-base-color for text on top of -fx-base, -fx-color, and -fx-body-color
-     * -fx-text-background-color for text on top of -fx-background
-     * -fx-text-inner-color for text on top of -fx-control-inner-color
-     * -fx-selection-bar-text for text on top of -fx-selection-bar
-     */
     -fx-dark-text-color: -jr-black;
     -fx-mid-text-color: -jr-gray-3;
     -fx-light-text-color: -jr-white;
@@ -152,19 +120,10 @@
     /* Default buttons color, this is similar to accent but more subtle */
     -fx-default-button: derive(-jr-accent, 50%);
 
-    /* A bright blue for the focus indicator of objects. Typically used as the
-     * first color in -fx-background-color for the "focused" pseudo-class. Also
-     * typically used with insets of -1.4 to provide a glowing effect.
-     */
+
     -fx-focus-color: -jr-accent;
     -fx-faint-focus-color: derive(-jr-accent, 50%);
 
-    /* The color that is used in styling controls. The default value is based
-     * on -fx-base, but is changed by pseudoclasses to change the base color.
-     * For example, the "hover" pseudoclass will typically set -fx-color to
-     * -fx-hover-base (see below) and the "armed" pseudoclass will typically
-     * set -fx-color to -fx-pressed-base.
-     */
     -fx-color: -fx-base;
 
     -fx-hover-base: derive(-fx-base, 30%);
@@ -176,67 +135,29 @@
      */
     -fx-pressed-base: derive(-fx-base, -6%);
 
-    /* A little darker than -fx-color and used to draw boxes around objects such
-     * as progress bars, scroll bars, scroll panes, trees, tables, and lists.
-     */
     -fx-box-border: derive(-fx-color, -5%);
 
-    /* Darker than -fx-background and used to draw boxes around text boxes and
-     * password boxes.
-     */
     -fx-text-box-border: derive(-fx-background, -15%);
 
-    /* Lighter than -fx-background and used to provide a small highlight when
-     * needed on top of -fx-background. This is never a shadow in Modena but
-     * keep -fx-shadow-highlight-color name to be compatible with Caspian.
-     */
     -fx-shadow-highlight-color: rgba(255, 255, 255, 0.07) 70%;
 
-    /* A gradient that goes from a little darker than -fx-color on the top to
-     * even more darker than -fx-color on the bottom.  Typically is the second
-     * color in the -fx-background-color list as the small thin border around
-     * a control. It is typically the same size as the control (i.e., insets
-     * are 0).
-     */
     -fx-outer-border: derive(-fx-color, -5%);
 
-    /* A gradient that goes from a bit lighter than -fx-color on the top to
-     * a little darker at the bottom.  Typically is the third color in the
-     * -fx-background-color list as a thin highlight inside the outer border.
-     * Insets are typically 1.
-     */
     -fx-inner-border: derive(-fx-color, 65%);
     -fx-inner-border-horizontal: derive(-fx-color, 65%);
     -fx-inner-border-bottomup: derive(-fx-color, 65%);
 
-    /*-fx-inner-border: red;*/
-    /*-fx-inner-border-horizontal: green;*/
-    /*-fx-inner-border-bottomup: blue;*/
-
-    /* A gradient that goes from a little lighter than -fx-color at the top to
-     * a little darker than -fx-color at the bottom and is used to fill the
-     * body of many controls such as buttons.
-     */
     -fx-body-color: derive(-fx-color, 20%);
     -fx-body-color-bottomup: derive(-fx-color, 20%);
     -fx-body-color-to-right: derive(-fx-color, 20%);
 
-    /* The small thin light "shadow" for mark-like objects. Typically used in
-     * conjunction with -fx-mark-color with an insets of 1 0 -1 0. */
+
     -fx-mark-color: -fx-text-base-color;
     -fx-mark-highlight-color: transparent;
-    /*-fx-mark-highlight-color: derive(-fx-color,80%);*/
-
-    /* Background for items in list like things such as menus, lists, trees,
-     * and tables. */
     -fx-selection-bar: -jr-accent;
 
-    /* Background color to use for selection of list cells etc. This is when
-     * the control doesn't have focus or the row of a previously selected item. */
     -fx-selection-bar-non-focused: lightgrey;
 
-    /* The color to use as -fx-text-fill when painting text on top of
-     * backgrounds filled with -fx-selection-bar. */
     -fx-selection-bar-text: -fx-text-background-color;
 
     /* These are needed for Popup */
@@ -245,12 +166,10 @@
     -fx-background-insets: inherit;
     -fx-padding: inherit;
 
-    /** Focus line for keyboard focus traversal on cell based controls */
     -fx-cell-focus-inner-border: derive(-fx-selection-bar, 30%);
 
     -fx-focused-mark-color: -fx-focused-text-base-color;
 
-    /* Consistent size for headers of tab-pane and side-panels*/
     -jr-header-height: 3em;
 }
 
@@ -389,32 +308,6 @@
     -fx-fill: -jr-selected;
 }
 
-.icon-buttonNoSpaceBottom {
-    -fx-padding: 0.5em 0.5em -0.1em 0.5em;
-}
-
-.icon-buttonNoSpaceTop {
-    -fx-padding: -0.1em 0.5em 0.5em 0.5em;
-}
-
-.progress-indicator {
-    -fx-progress-color: -jr-theme;
-    -fx-border-width: 0px;
-    -fx-background-color: -jr-icon-background;
-}
-
-.progress-indicator:hover {
-    -fx-background-color: -jr-icon-background-active;
-}
-
-.progress-indicatorToolbar {
-    -fx-padding: 0.5em;
-}
-
-.progress-indicatorToolbar .percentage {
-    -fx-fill: null;
-}
-
 .check-box {
     -fx-label-padding: 0.0em 0.0em 0.0em 0.75em;
     -fx-text-fill: -fx-text-background-color;
@@ -461,30 +354,6 @@
 
 .radio-button:selected > .radio > .dot {
     -fx-background-color: -jr-checked;
-}
-
-.menu-bar {
-    -fx-background-color: -jr-menu-background;
-    -fx-background-insets: 0;
-    -fx-background-radius: 0;
-}
-
-.menu-bar > .container > .menu-button > .label {
-    -fx-padding: 0.41777em 0.41777em 0.41777em 0.41777em;
-}
-
-.menu-bar > .menu {
-    -fx-padding: 0.0em 0.666667em 0.0em 0.666667em;
-}
-
-.menu-bar .menu-button {
-    -fx-border-color: transparent;
-    -fx-border-width: 0;
-    -fx-border-radius: 0;
-}
-
-.menu-item {
-    -fx-padding: 0.5em 0.41777em 0.5em 0.41777em;
 }
 
 .tab-pane {
@@ -566,14 +435,6 @@
 
 .tab-pane > .tab-header-area {
     -fx-padding: 0 0 0 0;
-}
-
-.numberColumn > .hits:any-selected {
-    -fx-background-color: derive(-jr-green, 70%);
-}
-
-.numberColumn > .hits:all-selected {
-    -fx-background-color: -jr-green;
 }
 
 .table-view,
