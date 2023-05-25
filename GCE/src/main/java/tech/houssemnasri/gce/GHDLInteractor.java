@@ -16,7 +16,7 @@ public class GHDLInteractor {
 
     public static final Path SIMULATION_WORK_DIRECTORY = Paths.get("C:\\Users\\Houssem\\Desktop\\GHDL-Testing\\cpu");
     private final String topEntity = "riscv_tb";
-    private final String vcdWaveformFilePath = "abcd.vcd";
+    private final String vcdWaveformFilePath = "program_simulation.vcd";
     private final Long stopTimeInNanoseconds = 5000L;
 
     public VCD run(Program program) {

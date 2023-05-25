@@ -34,11 +34,8 @@ public class MainView extends AnchorPane implements Initializable {
 
     @FXML
     private Button previousButton;
-
     @FXML
     private Button runPauseButton;
-    private RegistersViewer registersViewer;
-    private MemoryViewer memoryViewer;
     private Simulator simulator;
 
     public MainView(Simulator simulator) {
@@ -85,8 +82,10 @@ public class MainView extends AnchorPane implements Initializable {
 
     private void initializeSidePane() {
         Tab registersTab = new Tab("Registers");
-        Tab memoryTab = new Tab("Memory", new Label("Show all cars available"));
+        Tab memoryTab = new Tab("Memory");
+
         registersTab.setContent(new RegistersViewer(simulator.getMachine().getRegisterFile()));
+        memoryTab.setContent(new MemoryViewer(simulator.getMachine().getDataMemory()));
 
         sidePane.getTabs().addAll(registersTab, memoryTab);
 
