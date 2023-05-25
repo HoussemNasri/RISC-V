@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 import tech.houssemnasri.gce.Data;
 import tech.houssemnasri.gce.DataMemory;
@@ -54,12 +55,16 @@ public class MemoryViewer extends AnchorPane implements Callback<ListView<Memory
             protected void updateItem(MemoryItemModel item, boolean empty) {
                 super.updateItem(item, empty);
                 if (!empty && item != null) {
-                    setContentDisplay(ContentDisplay.RIGHT);
-                    setGraphicTextGap(36d);
+                    // Workaround to use a custom layout for the cell
+                    setText("");
+                    setGraphicTextGap(0);
+
+                    Label label = new Label(item.address.hex());
+                    label.setMinWidth(120);
                     TextField textfield = new TextField(item.value.hex());
                     textfield.setEditable(false);
-                    setGraphic(textfield);
-                    setText(item.address.hex());
+                    HBox hbox = new HBox(12, label, textfield);
+                    setGraphic(hbox);
                 }
             }
         };
