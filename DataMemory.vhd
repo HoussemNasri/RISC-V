@@ -16,9 +16,15 @@ end;
 
 architecture Behavioural of DataMemory is
 	function init_data
-	return std_logic_vector is variable data : std_logic_vector(200 DOWNTO 0) := (others => '0');
+	return std_logic_vector is 
+		variable data : std_logic_vector(200 DOWNTO 0) := (others => '0');
+		variable x    : natural := 0;
    begin 
 		data(31 downto 0) := x"0000000A";
+		while (x < 6) loop 
+			data((32 * (x + 1)) - 1 downto x * 32) := std_logic_vector(to_unsigned(x, 32));
+			x := x + 1;
+		end loop;
 	return data;
    end;
 	
