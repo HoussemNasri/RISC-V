@@ -4,7 +4,7 @@ use ieee.numeric_std.all;
 
 entity riscv_tb is
 	generic(
-		program_size: integer := 0;
+		program_size: integer := 0
 	);
 end;
 
@@ -18,7 +18,7 @@ begin
 	 process(slowClock) 
 	 begin
 		if(rising_edge(slowClock)) then
-			if(PC = x"0000000C") then -- Execute instruction 0x00000000, 0x00000004 and 0x00000008 then stop!
+			if(to_integer(PC) = program_size * 4 + 4) then -- Execute instruction 0x00000000, 0x00000004 and 0x00000008 then stop!
 				assert false report "end of simulation" severity failure;
 			end if;
 			PC <= unsigned(PCNext);
