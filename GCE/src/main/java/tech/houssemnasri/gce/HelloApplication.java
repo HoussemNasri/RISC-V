@@ -15,7 +15,7 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws URISyntaxException, MalformedURLException {
         GHDLInteractor ghdlInteractor = new GHDLInteractor();
-        Simulator simulator = new Simulator(null, ghdlInteractor);
+        Simulator simulator = new Simulator(ghdlInteractor);
         MainView mainView = new MainView(simulator);
 
         Scene scene = new Scene(mainView, 1350, 700);
@@ -41,7 +41,7 @@ public class HelloApplication extends Application {
 
             VCDExtensions vcdExtensions = new VCDExtensions(vcd);*/
             GHDLInteractor ghdlInteractor = new GHDLInteractor();
-            Simulator simul = new Simulator(null, ghdlInteractor);
+            Simulator simul = new Simulator(ghdlInteractor);
 
             // Map<String, BigInteger> latestWiresValues = vcdExtensions.getLatestWiresValue();
 

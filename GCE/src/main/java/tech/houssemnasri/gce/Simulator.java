@@ -23,7 +23,7 @@ public class Simulator {
     private final long cyclesCount;
     private int cycle;
 
-    public Simulator(Program program, GHDLInteractor ghdlInteractor) {
+    public Simulator(GHDLInteractor ghdlInteractor) {
         this.program = Program.fromFile(GHDLInteractor.SIMULATION_WORK_DIRECTORY.resolve("program.txt").toFile());
         this.machine = new MachineState();
 

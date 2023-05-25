@@ -17,13 +17,13 @@ public class GHDLInteractor {
     public static final Path SIMULATION_WORK_DIRECTORY = Paths.get("C:\\Users\\Houssem\\Desktop\\GHDL-Testing\\cpu");
     private final String topEntity = "riscv_tb";
     private final String vcdWaveformFilePath = "abcd.vcd";
-    private final Long stopTimeInNanoseconds = 500L; // 2 cycles
+    private final Long stopTimeInNanoseconds = 5000L;
 
     public VCD run(Program program) {
         List<String> vhdlFileNames = getVHDLFileNames();
         String analyzeCommand = buildAnalyzeCommand(vhdlFileNames);
         String elaborateCommand = buildElaborateCommand();
-        String runCommand = buildRunCommand();
+        String runCommand = buildRunCommand(program);
 
         Runtime runtime = Runtime.getRuntime();
         System.out.println(analyzeCommand);
@@ -93,9 +93,10 @@ public class GHDLInteractor {
         return "ghdl -e -fsynopsys " + topEntity;
     }
 
-    private String buildRunCommand() {
+    private String buildRunCommand(Program program) {
         return "ghdl -r -fsynopsys " + topEntity +
                 " --vcd=" + vcdWaveformFilePath +
-                " --stop-time=" + stopTimeInNanoseconds + "ns";
+                " --stop-time=" + stopTimeInNanoseconds + "ns" +
+                " -gPROGRAM_SIZE=" + program.getInstructions().size();
     }
 }
