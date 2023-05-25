@@ -37,7 +37,7 @@ public class MemoryViewer extends AnchorPane implements Callback<ListView<Memory
         System.out.println(pageIndex);
         for (int i = 0; i < pageValues.size(); i++) {
             MemoryItemModel memoryItem = new MemoryItemModel();
-            memoryItem.address = Data.fromInt((i * (pageIndex + 1)) * 4);
+            memoryItem.address = Data.fromInt((pageIndex * ITEMS_PER_PAGE * 4) + i * 4);
             memoryItem.value = Data.fromInt(pageValues.get(i));
             page.add(memoryItem);
         }
