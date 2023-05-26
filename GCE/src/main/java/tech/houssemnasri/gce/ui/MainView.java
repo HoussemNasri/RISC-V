@@ -7,11 +7,13 @@ import java.util.ResourceBundle;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import tech.houssemnasri.gce.Data;
 import tech.houssemnasri.gce.Instruction;
@@ -105,7 +107,8 @@ public class MainView extends AnchorPane implements Initializable {
 
         instructionsTableView.getColumns()
                 .addAll(instructionAddressColumn, instructionMachineCodeColumn, instructionAssemblyColumn);
-        instructionsTableView.setDisable(true);
+
+        instructionsTableView.addEventFilter(MouseEvent.MOUSE_PRESSED, Event::consume);
 
         instructionsTableView.getItems().addAll(simulator.getProgram().getInstructions());
         instructionsTableView.getSelectionModel().select(0);
