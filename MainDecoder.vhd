@@ -11,14 +11,14 @@ entity MainDecoder is
 		MemWrite: out std_logic;
 		ResultSrc: out std_logic;
 		ALUOp: out std_logic_vector(1 downto 0);
-		PCSrc: out std_logic;
+		PCSrc: out std_logic := '0';
 		isZero: in std_logic;
 		funct3: in std_logic_vector(2 downto 0));
 end;
 
 architecture Behavioural of MainDecoder is
 begin
-	process(opcode) is 
+	process(opcode, isZero) is 
 	begin 
 	
 		case opcode is 
@@ -29,18 +29,21 @@ begin
 				MemWrite <= '0';
 				ResultSrc <= '1';
 				ALUOp <= "00";
+				PCSrc <= '0';
 			when "0100011" => -- sw
 				RegWrite <= '0';
 				ImmSrc <= "01";
 				ALUSrc <= '1';
 				MemWrite <= '1';
 				ALUOp <= "00";
+				PCSrc <= '0';
 			when "0110011" => -- R-type instruitons
 				RegWrite <= '1';
 				ALUSrc <= '0';
 				MemWrite <= '0';
 				ResultSrc <= '0';
 				ALUOp <= "10";
+				PCSrc <= '0';
 			when "1100011"	=> -- beq or bne
 				RegWrite <= '0';
 				ImmSrc <= "10";
@@ -51,12 +54,18 @@ begin
 					when "000" => -- beq
 						PCSrc <= isZero;
 					when "001" => -- bne
-						PCSrc <= not isZero;
+						if(isZero = '0') then 
+							PCSrc <= '1';
+						else 
+							PCSrc <= '0';
+						end if; 
 					when others => 
+						PCSrc <= '0';
 				end case;
 			when others =>
 				RegWrite <= '0';
 				MemWrite <= '0';
+				PCSrc <= '0';
 		end case;	
 	end process;
 	

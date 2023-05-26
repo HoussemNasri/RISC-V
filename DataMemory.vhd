@@ -35,7 +35,6 @@ begin
 	begin
 		if (rising_edge(writeClock)) then
 			if (isWriteEnable = '1') then 
-				-- memory(to_integer(unsigned(address))) <= writeData;
 				words(to_integer(unsigned(address)) * 8 + 31 downto to_integer(unsigned(address)) * 8) <= writeData;
 			end if;
 		end if;
@@ -44,8 +43,9 @@ begin
 	process(readClock)
 	begin 
 		if (rising_edge(readClock)) then
-			-- readData <= memory(to_integer(unsigned(address)));
-			readData <= words(to_integer(unsigned(address)) * 8 + 31 downto to_integer(unsigned(address)) * 8);
+			if(address < x"F") then 
+					readData <= words(to_integer(unsigned(address)) * 8 + 31 downto to_integer(unsigned(address)) * 8);
+			end if;
 		end if;
 	end process;
 end;

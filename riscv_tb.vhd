@@ -18,9 +18,9 @@ begin
 	 process(slowClock) 
 	 begin
 		if(rising_edge(slowClock)) then
-			if(to_integer(PC) = program_size * 4 + 4) then -- Execute instruction 0x00000000, 0x00000004 and 0x00000008 then stop!
-				assert false report "end of simulation" severity failure;
-			end if;
+--			if(to_integer(PC) = program_size * 4 + 4) then -- Execute instruction 0x00000000, 0x00000004 and 0x00000008 then stop!
+--				assert false report "end of simulation" severity failure;
+--			end if;
 			PC <= unsigned(PCNext);
 		end if;
 	 end process;
