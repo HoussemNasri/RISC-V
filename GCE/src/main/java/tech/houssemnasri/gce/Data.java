@@ -2,13 +2,17 @@ package tech.houssemnasri.gce;
 
 public class Data {
     private final int sizeInBits = 32;
-    private final int data;
+    private final long data;
 
-    private Data(int data) {
+    private Data(long data) {
         this.data = data;
     }
 
     public static Data fromInt(int data) {
+        return new Data(data);
+    }
+
+    public static Data fromLong(long data) {
         return new Data(data);
     }
 
@@ -24,7 +28,7 @@ public class Data {
         return "";
     }
 
-    public int getData() {
+    public long getData() {
         return data;
     }
 }

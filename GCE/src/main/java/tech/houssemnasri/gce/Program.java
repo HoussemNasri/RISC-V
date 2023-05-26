@@ -22,8 +22,8 @@ public class Program {
         try (BufferedReader br = new BufferedReader(new FileReader(file));) {
             String line;
             while ((line = br.readLine()) != null && !line.isEmpty()) {
-                Integer instructionValue = Integer.valueOf(line, 16);
-                Instruction instruction = new Instruction(Data.fromInt(instructionValue), Data.fromInt(instructionAddress));
+                Long instructionValue = Long.valueOf(line, 16);
+                Instruction instruction = new Instruction(Data.fromLong(instructionValue), Data.fromInt(instructionAddress));
                 instrs.add(instruction);
                 instructionAddress += 4;
             }
