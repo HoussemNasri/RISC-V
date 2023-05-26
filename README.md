@@ -8,6 +8,6 @@ A RV32I compliant RISC-V CPU in VHDL, accompanied by a custom simulation tool th
 ![gce-1](https://github.com/HoussemNasri/RISC-V/assets/21198231/c8dcbd0b-2938-4ecb-adb5-89a2ffef1a17)
 ![gce-2](https://github.com/HoussemNasri/RISC-V/assets/21198231/a2044276-d1d6-43c5-b2d9-fccca7c15cd2)
 ## Thanks
-Thanks to [JabRef](https://github.com/JabRef/jabref/blob/main/src/main/java/org/jabref/gui/Base.css) for the awesome CSS stylesheet
+Thanks to [JabRef](https://github.com/JabRef/jabref/blob/main/src/main/java/org/jabref/gui/Base.css) for the awesome CSS stylesheet.
 
 
