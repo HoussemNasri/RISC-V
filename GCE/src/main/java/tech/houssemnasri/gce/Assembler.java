@@ -6,13 +6,9 @@ import java.util.*;
 /**
  * Screw clean code
  */
-public class RISCVAssembler {
-    private final List<String> assemblyInstructions = new ArrayList<>();
-    private String currentInstruction;
-    private int index;
+public class Assembler {
 
-    public RISCVAssembler(List<String> instructions) {
-        assemblyInstructions.addAll(instructions);
+    public Assembler() {
         System.out.println(Long.toBinaryString(parseLW(new String[]{"lw", "x1", "-8(x3)"})));
         System.out.println(Long.toHexString(parseLW(new String[]{"lw", "x1", "-8(x3)"})));
         System.out.println(Long.toHexString(parseRType(new String[]{"add", "x5", "x1", "x0"})));
@@ -29,18 +25,9 @@ public class RISCVAssembler {
         System.out.println(Long.toHexString(parseBType(new String[]{"beq", "x1", "x4", "-4"})));
         System.out.println(Long.toHexString(parseBType(new String[]{"bne", "x2", "x4", "-8"})));
 
-        assemblyInstructions.add("add x5, x1, x0");
-        assemblyInstructions.add(" add x1, x1, x1");
-        assemblyInstructions.add("add x9, x8, x1");
-        assemblyInstructions.add("sub x5, x1, x0");
-        assemblyInstructions.add("and x1, x1, x1");
-        assemblyInstructions.add("or x9, x8, x1   ");
-
-        System.out.println(assemble());
-
     }
 
-    public Program assemble() {
+    public Program assemble(List<String> assemblyInstructions) {
         List<Instruction> instructions = new ArrayList<>();
         for (int i = 0; i < assemblyInstructions.size(); i++) {
             String instruction = assemblyInstructions.get(i);
@@ -50,7 +37,6 @@ public class RISCVAssembler {
     }
 
     private Instruction parseInstruction(int position, String instruction) {
-        this.currentInstruction = instruction;
         String[] tokens = instruction.trim().split(",?\\s+");
         System.out.println(tokens[0]);
         long res = -1;
@@ -78,11 +64,7 @@ public class RISCVAssembler {
             throw new IllegalArgumentException("Instruction is not supported: " + instruction);
         }
 
-        return new Instruction(Data.fromLong(res), Data.fromInt(position * 4));
-    }
-
-    private String withoutWhitespaces(String s) {
-        return s.replace("\\s", "");
+        return new Instruction(Data.fromLong(res), Data.fromInt(position * 4), instruction);
     }
 
     private long parseLW(String[] tokens) {

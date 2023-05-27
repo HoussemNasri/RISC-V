@@ -14,11 +14,10 @@ import java.util.ArrayList;
 
 public class HelloApplication extends Application {
     @Override
-    public void start(Stage stage) throws URISyntaxException, MalformedURLException {
+    public void start(Stage stage) {
         GHDLInteractor ghdlInteractor = new GHDLInteractor();
         Simulator simulator = new Simulator(ghdlInteractor);
-        MainView mainView = new MainView(simulator);
-        new RISCVAssembler(new ArrayList<>());
+        MainView mainView = new MainView(simulator, stage);
         Scene scene = new Scene(mainView, 1350, 700);
         scene.getStylesheets().add(getClass().getResource("App.css").toExternalForm());
         stage.setTitle("Hello!");

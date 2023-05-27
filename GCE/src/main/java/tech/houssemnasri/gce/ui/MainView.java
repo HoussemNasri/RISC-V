@@ -1,10 +1,13 @@
 package tech.houssemnasri.gce.ui;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -15,8 +18,11 @@ import javafx.scene.control.*;
 
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import tech.houssemnasri.gce.Data;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import tech.houssemnasri.gce.GHDLInteractor;
 import tech.houssemnasri.gce.Instruction;
+import tech.houssemnasri.gce.Program;
 import tech.houssemnasri.gce.Simulator;
 
 public class MainView extends AnchorPane implements Initializable {
@@ -33,16 +39,19 @@ public class MainView extends AnchorPane implements Initializable {
     private TabPane sidePane;
     @FXML
     private Button nextButton;
-
     @FXML
     private Button previousButton;
     @FXML
     private Button runPauseButton;
     private Simulator simulator;
+    private final Stage stage;
+    private final FileChooser fileChooser = new FileChooser();
+    private final ObjectProperty<Program> programObjectProperty = new SimpleObjectProperty<>();
 
-    public MainView(Simulator simulator) {
+    public MainView(Simulator simulator, Stage stage) {
         loadView();
         this.simulator = simulator;
+        this.stage = stage;
         instructionsTableView.setEditable(true);
 
         instructionsTableView.getSelectionModel().select(0);
@@ -110,14 +119,28 @@ public class MainView extends AnchorPane implements Initializable {
 
         instructionsTableView.addEventFilter(MouseEvent.MOUSE_PRESSED, Event::consume);
 
-        instructionsTableView.getItems().addAll(simulator.getProgram().getInstructions());
-        instructionsTableView.getSelectionModel().select(0);
+        programObjectProperty.addListener((obs, old, program) -> {
+            if (program != null) {
+                instructionsTableView.getItems().setAll(program.getInstructions());
+                instructionsTableView.getSelectionModel().select(0);
+            }
+        });
     }
 
 
     @FXML
     void loadProgram(ActionEvent event) {
-
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("risc-v assembly", "*.ras")
+        );
+        File chosenFile = fileChooser.showOpenDialog(stage);
+        if (chosenFile != null) {
+            Program program = Program.fromAssemblyFile(chosenFile);
+            program.writeTo(GHDLInteractor.SIMULATION_WORK_DIRECTORY.resolve("program.txt").toFile());
+            simulator.restart();
+            resetSimulation();
+            programObjectProperty.set(program);
+        }
     }
 
     @FXML
@@ -126,7 +149,7 @@ public class MainView extends AnchorPane implements Initializable {
     }
 
     @FXML
-    void runOrPauseSimulation(ActionEvent event) {
+    void runOrPauseSimulation() {
 
     }
 
@@ -136,7 +159,7 @@ public class MainView extends AnchorPane implements Initializable {
     }
 
     @FXML
-    void resetSimulation(ActionEvent event) {
+    void resetSimulation() {
         previousButton.setDisable(false);
         nextButton.setDisable(false);
         runPauseButton.setDisable(false);

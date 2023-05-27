@@ -1,6 +1,8 @@
 package tech.houssemnasri.gce;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +17,7 @@ public class Program {
         return instructions;
     }
 
-    public static Program fromFile(File file) {
+    public static Program fromBinaryFile(File file) {
         List<Instruction> instrs = new ArrayList<>();
 
         int instructionAddress = 0;
@@ -32,6 +34,31 @@ public class Program {
         }
 
         return new Program(instrs);
+    }
+
+    public static Program fromAssemblyFile(File file) {
+        try {
+            List<String> assemblyInstructions = Files.readAllLines(Paths.get(file.getPath()));
+            Assembler assembler = new Assembler();
+            return assembler.assemble(assemblyInstructions);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void writeTo(File file) {
+        try {
+            Files.deleteIfExists(file.toPath());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try (FileWriter fileWriter = new FileWriter(file)) {
+            for (Instruction instruction : instructions) {
+                fileWriter.write(String.format("%08X%n", instruction.getInstruction().getData()));
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

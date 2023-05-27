@@ -1,6 +1,5 @@
 package tech.houssemnasri.gce;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -20,30 +19,14 @@ public class Simulator {
     private Program program;
     // Element 0 refer to the initial values before any cycles
     private final List<Set<Change>> valuesAtCycle = new ArrayList<>();
-    private final long cyclesCount;
+    private long cyclesCount;
     private int cycle;
 
+    private final GHDLInteractor ghdlInteractor;
+
     public Simulator(GHDLInteractor ghdlInteractor) {
-        this.program = Program.fromFile(GHDLInteractor.SIMULATION_WORK_DIRECTORY.resolve("program.txt").toFile());
         this.machine = new MachineState();
-
-        VCD vcd = ghdlInteractor.run(program);
-
-        long maxRecordedTime = (long) vcd.valuesAtTime()
-                .keys().map(o -> (Long) o).max((Ordering<Long>) Long::compare);
-
-        cyclesCount = maxRecordedTime / CLOCK_CYCLE_PERIOD;
-        valuesAtCycle.add(JavaConverters.asJava(vcd.initialValues()));
-        for (int cycle = 0; cycle < cyclesCount; cycle++) {
-            scala.collection.mutable.HashSet<Change> scalaChangesSet = vcd.valuesAtTime().getOrElse((cycle + 1) * CLOCK_CYCLE_PERIOD, scala.collection.mutable.HashSet::new);
-            valuesAtCycle.add(JavaConverters.asJava(scalaChangesSet));
-        }
-
-        reset();
-
-        for (Set<Change> values : valuesAtCycle) {
-            System.out.println(values);
-        }
+        this.ghdlInteractor = ghdlInteractor;
 
         System.out.println(cyclesCount);
     }
@@ -110,6 +93,23 @@ public class Simulator {
     public void reset() {
         cycle = 0;
         updateMachineState();
+    }
+
+    public void restart() {
+        this.program = Program.fromBinaryFile(GHDLInteractor.SIMULATION_WORK_DIRECTORY.resolve("program.txt").toFile());
+        VCD vcd = ghdlInteractor.run(program);
+
+        long maxRecordedTime = (long) vcd.valuesAtTime()
+                .keys().map(o -> (Long) o).max((Ordering<Long>) Long::compare);
+
+        cyclesCount = maxRecordedTime / CLOCK_CYCLE_PERIOD;
+        valuesAtCycle.clear();
+        valuesAtCycle.add(JavaConverters.asJava(vcd.initialValues()));
+        for (int cycle = 0; cycle < cyclesCount; cycle++) {
+            scala.collection.mutable.HashSet<Change> scalaChangesSet = vcd.valuesAtTime().getOrElse((cycle + 1) * CLOCK_CYCLE_PERIOD, scala.collection.mutable.HashSet::new);
+            valuesAtCycle.add(JavaConverters.asJava(scalaChangesSet));
+        }
+        reset();
     }
 
     public MachineState getMachine() {
