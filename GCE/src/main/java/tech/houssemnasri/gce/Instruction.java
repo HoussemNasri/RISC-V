@@ -24,4 +24,9 @@ public class Instruction {
     public Data getAddress() {
         return address;
     }
+
+    @Override
+    public String toString() {
+        return instruction.hex();
+    }
 }

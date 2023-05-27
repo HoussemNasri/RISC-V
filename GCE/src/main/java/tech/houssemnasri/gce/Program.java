@@ -33,4 +33,14 @@ public class Program {
 
         return new Program(instrs);
     }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Instruction instruction : instructions) {
+            stringBuilder.append(instruction).append("\n");
+        }
+
+        return stringBuilder.toString();
+    }
 }

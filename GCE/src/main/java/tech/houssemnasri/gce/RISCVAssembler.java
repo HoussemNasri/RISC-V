@@ -2,7 +2,6 @@ package tech.houssemnasri.gce;
 
 import java.math.BigInteger;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Screw clean code
@@ -30,19 +29,56 @@ public class RISCVAssembler {
         System.out.println(Long.toHexString(parseBType(new String[]{"beq", "x1", "x4", "-4"})));
         System.out.println(Long.toHexString(parseBType(new String[]{"bne", "x2", "x4", "-8"})));
 
+        assemblyInstructions.add("add x5, x1, x0");
+        assemblyInstructions.add(" add x1, x1, x1");
+        assemblyInstructions.add("add x9, x8, x1");
+        assemblyInstructions.add("sub x5, x1, x0");
+        assemblyInstructions.add("and x1, x1, x1");
+        assemblyInstructions.add("or x9, x8, x1   ");
+
+        System.out.println(assemble());
+
     }
 
     public Program assemble() {
-        List<Instruction> instructions = assemblyInstructions.stream()
-                .map(this::parseInstruction).collect(Collectors.toList());
+        List<Instruction> instructions = new ArrayList<>();
+        for (int i = 0; i < assemblyInstructions.size(); i++) {
+            String instruction = assemblyInstructions.get(i);
+            instructions.add(parseInstruction(i, instruction));
+        }
         return new Program(instructions);
     }
 
-    private Instruction parseInstruction(String instruction) {
+    private Instruction parseInstruction(int position, String instruction) {
         this.currentInstruction = instruction;
-        String[] tokens = instruction.trim().split(",?\\s*");
-        int tokenIndex = 0;
-        return null;
+        String[] tokens = instruction.trim().split(",?\\s+");
+        System.out.println(tokens[0]);
+        long res = -1;
+        switch (tokens[0].toUpperCase()) {
+            case "LW":
+                res = parseLW(tokens);
+                break;
+            case "SW":
+                res = parseSW(tokens);
+                break;
+            case "ADD":
+            case "SUB":
+            case "AND":
+            case "OR":
+            case "SLT":
+                res = parseRType(tokens);
+                break;
+            case "BEQ":
+            case "BNE":
+                res = parseBType(tokens);
+                break;
+        }
+
+        if (res == -1) {
+            throw new IllegalArgumentException("Instruction is not supported: " + instruction);
+        }
+
+        return new Instruction(Data.fromLong(res), Data.fromInt(position * 4));
     }
 
     private String withoutWhitespaces(String s) {
