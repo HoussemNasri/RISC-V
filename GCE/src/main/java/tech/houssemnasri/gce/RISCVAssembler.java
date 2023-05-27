@@ -24,6 +24,9 @@ public class RISCVAssembler {
         System.out.println(Long.toHexString(parseRType(new String[]{"and", "x1", "x1", "x1"})));
         System.out.println(Long.toHexString(parseRType(new String[]{"or", "x9", "x8", "x1"})));
 
+        System.out.println(Long.toHexString(parseSW(new String[]{"SW", "x5", "2(x2)"})));
+        System.out.println(Long.toBinaryString(parseSW(new String[]{"SW", "x5", "2(x2)"})));
+
     }
 
     public Program assemble() {
@@ -61,7 +64,46 @@ public class RISCVAssembler {
     }
 
     private Long parseSW(String[] tokens) {
-        return null;
+        assert tokens.length == 3;
+
+        Register rs2 = parseRegister(tokens[1]);
+        String[] offsetAndRS1 = tokens[2].replace(")", "").split("\\(");
+        int offset = Integer.parseInt(offsetAndRS1[0]);
+        Register rs1 = parseRegister(offsetAndRS1[1]);
+        BitSet offsetBits = BitSet.valueOf(new long[]{offset});
+        System.out.println("Debug: " + offsetBits);
+        BigInteger result = BigInteger.ZERO;
+        result = setBits(0b0100011, 0, 7, result);
+
+        BitSet _0_to_4 = offsetBits.get(0, 5);
+        result = setBits(_0_to_4.length() == 0 ? 0 : (int) _0_to_4.toLongArray()[0], 7, 5, result);
+
+        result = setBits(0b010, 12, 3, result);
+        result = setBits(rs1.index(), 15, 5, result);
+        result = setBits(rs2.index(), 20, 5, result);
+
+        BitSet _5_to_11 = offsetBits.get(5, 12);
+        result = setBits(_5_to_11.length() == 0 ? 0 : (int) _5_to_11.toLongArray()[0], 25, 7, result);
+
+        return result.longValue();
+    }
+
+    private long parseBEQ(String[] tokens) {
+/*        BitSet offsetBits = BitSet.valueOf(new long[]{offset});
+        System.out.println("Debug: " + offsetBits);
+        BigInteger result = BigInteger.ZERO;
+        result = setBits(0b0100011, 0, 7, result);
+        result = setBits(offsetBits.get(1) ? 1 : 0, 7, 1, result);
+        BitSet _8_to_11 = offsetBits.get(8, 11);
+        result = setBits(_8_to_11.length() == 0 ? 0 : (int) _8_to_11.toLongArray()[0], 8, 4, result);
+        result = setBits(0b010, 12, 3, result);
+        result = setBits(rs1.index(), 15, 5, result);
+        result = setBits(rs2.index(), 20, 5, result);
+        BitSet _2_to_7 = offsetBits.get(8, 11);
+        result = setBits(_2_to_7.length() == 0 ? 0 : (int) _2_to_7.toLongArray()[0], 25, 6, result);
+        result = setBits(offsetBits.get(0) ? 1 : 0, 31, 1, result);*/
+
+        return 0;
     }
 
     private Long parseRType(String[] tokens) {
