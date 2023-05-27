@@ -9,21 +9,6 @@ import java.util.*;
 public class Assembler {
 
     public Assembler() {
-        System.out.println(Long.toBinaryString(parseLW(new String[]{"lw", "x1", "-8(x3)"})));
-        System.out.println(Long.toHexString(parseLW(new String[]{"lw", "x1", "-8(x3)"})));
-        System.out.println(Long.toHexString(parseRType(new String[]{"add", "x5", "x1", "x0"})));
-        System.out.println(Long.toHexString(parseRType(new String[]{"add", "x1", "x1", "x1"})));
-        System.out.println(Long.toHexString(parseRType(new String[]{"add", "x9", "x8", "x1"})));
-
-        System.out.println(Long.toHexString(parseRType(new String[]{"sub", "x5", "x1", "x0"})));
-        System.out.println(Long.toHexString(parseRType(new String[]{"and", "x1", "x1", "x1"})));
-        System.out.println(Long.toHexString(parseRType(new String[]{"or", "x9", "x8", "x1"})));
-
-        System.out.println(Long.toHexString(parseSW(new String[]{"SW", "x5", "2(x2)"})));
-        System.out.println(Long.toBinaryString(parseSW(new String[]{"SW", "x5", "2(x2)"})));
-
-        System.out.println(Long.toHexString(parseBType(new String[]{"beq", "x1", "x4", "-4"})));
-        System.out.println(Long.toHexString(parseBType(new String[]{"bne", "x2", "x4", "-8"})));
 
     }
 

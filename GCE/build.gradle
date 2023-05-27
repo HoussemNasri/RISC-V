@@ -21,7 +21,7 @@ tasks.withType(JavaCompile) {
 }
 
 application {
-    mainClass = 'tech.houssemnasri.gce.HelloApplication'
+    mainClass = 'tech.houssemnasri.gce.App'
 }
 
 dependencies {

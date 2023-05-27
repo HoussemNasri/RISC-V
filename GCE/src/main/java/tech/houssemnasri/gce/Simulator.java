@@ -85,9 +85,6 @@ public class Simulator {
                 machine.setPC(change.value().longValue());
             }
         }
-        System.out.println(machine.getRegisterFile());
-        System.out.println(machine.getDataMemory());
-        System.out.println("PC: " + machine.getPC());
     }
 
     public void reset() {
