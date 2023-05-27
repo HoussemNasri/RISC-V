@@ -10,6 +10,7 @@ import tech.houssemnasri.gce.ui.MainView;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 
 public class HelloApplication extends Application {
     @Override
@@ -17,7 +18,7 @@ public class HelloApplication extends Application {
         GHDLInteractor ghdlInteractor = new GHDLInteractor();
         Simulator simulator = new Simulator(ghdlInteractor);
         MainView mainView = new MainView(simulator);
-
+        new RISCVAssembler(new ArrayList<>());
         Scene scene = new Scene(mainView, 1350, 700);
         scene.getStylesheets().add(getClass().getResource("App.css").toExternalForm());
         stage.setTitle("Hello!");

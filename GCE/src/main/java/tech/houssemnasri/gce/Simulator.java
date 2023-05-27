@@ -49,6 +49,7 @@ public class Simulator {
     }
 
     public void stepIn() {
+        System.out.println("PC: " + machine.getPC());
         if (cycle + 1 > cyclesCount) {
             System.out.println("Program finished!");
         } else {

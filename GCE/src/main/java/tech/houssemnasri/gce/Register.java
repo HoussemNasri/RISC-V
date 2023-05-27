@@ -51,4 +51,12 @@ public enum Register {
         assert index >= 0 && index <= 31;
         return Arrays.stream(values()).filter(r -> r.index() == index).findFirst().get();
     }
+
+    public static Register parse(String register) {
+        if (register.startsWith("x")) {
+            int regIndex = Integer.parseInt(register.substring(1));
+            return byIndex(regIndex);
+        }
+        return Register.valueOf(register.toUpperCase());
+    }
 }
