@@ -1,10 +1,12 @@
 package tech.houssemnasri.gce;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Screw clean code
+ */
 public class RISCVAssembler {
     private final List<String> assemblyInstructions = new ArrayList<>();
     private String currentInstruction;
@@ -14,12 +16,19 @@ public class RISCVAssembler {
         assemblyInstructions.addAll(instructions);
         System.out.println(Long.toBinaryString(parseLW(new String[]{"lw", "x1", "-8(x3)"})));
         System.out.println(Long.toHexString(parseLW(new String[]{"lw", "x1", "-8(x3)"})));
+        System.out.println(Long.toHexString(parseRType(new String[]{"add", "x5", "x1", "x0"})));
+        System.out.println(Long.toHexString(parseRType(new String[]{"add", "x1", "x1", "x1"})));
+        System.out.println(Long.toHexString(parseRType(new String[]{"add", "x9", "x8", "x1"})));
+
+        System.out.println(Long.toHexString(parseRType(new String[]{"sub", "x5", "x1", "x0"})));
+        System.out.println(Long.toHexString(parseRType(new String[]{"and", "x1", "x1", "x1"})));
+        System.out.println(Long.toHexString(parseRType(new String[]{"or", "x9", "x8", "x1"})));
 
     }
 
     public Program assemble() {
-        List<Instruction> instructions =
-                assemblyInstructions.stream().map(this::parseInstruction).collect(Collectors.toList());
+        List<Instruction> instructions = assemblyInstructions.stream()
+                .map(this::parseInstruction).collect(Collectors.toList());
         return new Program(instructions);
     }
 
@@ -56,7 +65,36 @@ public class RISCVAssembler {
     }
 
     private Long parseRType(String[] tokens) {
-        return null;
+        assert tokens.length == 4;
+
+        String op = tokens[0].toUpperCase();
+        Register rd = parseRegister(tokens[1]);
+        Register rs1 = parseRegister(tokens[2]);
+        Register rs2 = parseRegister(tokens[3]);
+
+        Map<String, Integer> rTypeToFunct3Mapper = new HashMap<>();
+        rTypeToFunct3Mapper.put("ADD", 0x0);
+        rTypeToFunct3Mapper.put("SUB", 0x0);
+        rTypeToFunct3Mapper.put("AND", 0x7);
+        rTypeToFunct3Mapper.put("OR", 0x6);
+        rTypeToFunct3Mapper.put("SLT", 0x3);
+
+        Map<String, Integer> rTypeToFunct7Mapper = new HashMap<>();
+        rTypeToFunct7Mapper.put("ADD", 0x00);
+        rTypeToFunct7Mapper.put("SUB", 0x20);
+        rTypeToFunct7Mapper.put("AND", 0x00);
+        rTypeToFunct7Mapper.put("OR", 0x00);
+        rTypeToFunct7Mapper.put("SLT", 0x00);
+
+        BigInteger result = BigInteger.ZERO;
+        result = setBits(0b0110011, 0, 7, result);
+        result = setBits(rd.index(), 7, 5, result);
+        result = setBits(rTypeToFunct3Mapper.get(op), 12, 3, result);
+        result = setBits(rs1.index(), 15, 5, result);
+        result = setBits(rs2.index(), 20, 5, result);
+        result = setBits(rTypeToFunct7Mapper.get(op), 25, 7, result);
+
+        return result.longValue();
     }
 
     private Register parseRegister(String regToken) {
