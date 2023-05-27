@@ -23,7 +23,7 @@
                                         <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loadProgram" text="Load" HBox.hgrow="NEVER" />
                                     </children>
                                 </HBox>
-                                <ButtonBar buttonMinWidth="100.0" HBox.hgrow="NEVER">
+                                <ButtonBar buttonMinWidth="110.0" HBox.hgrow="NEVER">
                                     <buttons>
                               <Button maxWidth="56.0" mnemonicParsing="false" onAction="#resetSimulation" text="Reset" />
                                         <Button fx:id="previousButton" mnemonicParsing="false" onAction="#runPreviousInstruction" text="Previous" />

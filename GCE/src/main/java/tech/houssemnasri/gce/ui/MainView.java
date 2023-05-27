@@ -9,6 +9,7 @@ import java.util.TimerTask;
 
 
 import javafx.application.Platform;
+import javafx.beans.InvalidationListener;
 import javafx.beans.property.*;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -49,6 +50,7 @@ public class MainView extends AnchorPane implements Initializable {
     private final ObjectProperty<Program> programObjectProperty = new SimpleObjectProperty<>();
     private Timer runTimer = new Timer();
     private BooleanProperty isRunning = new SimpleBooleanProperty(false);
+    private BooleanProperty isLoadingProgram = new SimpleBooleanProperty(true);
 
     public MainView(Simulator simulator, Stage stage) {
         loadView();
@@ -74,6 +76,7 @@ public class MainView extends AnchorPane implements Initializable {
             }
         });
 
+
         initializeSidePane();
         initializeInstructionsTableView();
 
@@ -93,6 +96,21 @@ public class MainView extends AnchorPane implements Initializable {
                 previousButton.setDisable(false);
                 runTimer.cancel();
                 runTimer = new Timer();
+            }
+        });
+
+        nextButton.setDisable(true);
+        previousButton.setDisable(true);
+        runPauseButton.setDisable(true);
+        isLoadingProgram.addListener((obs, old, isLoading) -> {
+            if (isLoading) {
+                nextButton.setDisable(true);
+                previousButton.setDisable(true);
+                runPauseButton.setDisable(true);
+            } else {
+                nextButton.setDisable(false);
+                previousButton.setDisable(false);
+                runPauseButton.setDisable(false);
             }
         });
     }
@@ -151,6 +169,7 @@ public class MainView extends AnchorPane implements Initializable {
 
     @FXML
     void loadProgram(ActionEvent event) {
+        isLoadingProgram.set(true);
         fileChooser.getExtensionFilters().add(
                 new FileChooser.ExtensionFilter("risc-v assembly", "*.ras")
         );
@@ -162,6 +181,7 @@ public class MainView extends AnchorPane implements Initializable {
             resetSimulation();
             programObjectProperty.set(program);
         }
+        isLoadingProgram.set(false);
     }
 
     @FXML
