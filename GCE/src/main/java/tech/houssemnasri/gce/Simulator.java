@@ -113,16 +113,13 @@ public class Simulator {
         Set<Change> prevChangeSet = null;
         for (int cycle = 0; cycle < cyclesCount; cycle++) {
             Set<Change> changesSet =
-                    JavaConverters.setAsJavaSet(vcd.valuesAtTime().getOrElse((cycle + 1) * CLOCK_CYCLE_PERIOD, scala.collection.mutable.HashSet::new));
+                    new HashSet<>(JavaConverters.setAsJavaSet(vcd.valuesAtTime().getOrElse((cycle + 1) * CLOCK_CYCLE_PERIOD, scala.collection.mutable.HashSet::new)));
             if (prevChangeSet != null) {
-                Set<Change> finalChangesSet = changesSet;
                 prevChangeSet = prevChangeSet.stream().filter(change ->
-                        finalChangesSet.stream().noneMatch(change2 -> change2.wire().fullName().equals(change.wire().fullName()))
+                        changesSet.stream().noneMatch(change2 -> change2.wire().fullName().equals(change.wire().fullName()))
                 ).collect(Collectors.toSet());
 
-                Set<Change> newChangeSet = new HashSet<>(changesSet);
-                newChangeSet.addAll(prevChangeSet);
-                changesSet = newChangeSet;
+                changesSet.addAll(prevChangeSet);
             }
             valuesAtCycle.add(changesSet);
             prevChangeSet = changesSet;
