@@ -110,17 +110,16 @@ public class Simulator {
         cyclesCount = maxRecordedTime / CLOCK_CYCLE_PERIOD;
         valuesAtCycle.clear();
         valuesAtCycle.add(JavaConverters.asJava(vcd.initialValues()));
-        Set<Change> prevChangeSet = null;
+        Set<Change> prevChangeSet = valuesAtCycle.get(0);
         for (int cycle = 0; cycle < cyclesCount; cycle++) {
             Set<Change> changesSet =
                     new HashSet<>(JavaConverters.setAsJavaSet(vcd.valuesAtTime().getOrElse((cycle + 1) * CLOCK_CYCLE_PERIOD, scala.collection.mutable.HashSet::new)));
-            if (prevChangeSet != null) {
-                prevChangeSet = prevChangeSet.stream().filter(change ->
-                        changesSet.stream().noneMatch(change2 -> change2.wire().fullName().equals(change.wire().fullName()))
-                ).collect(Collectors.toSet());
+            prevChangeSet = prevChangeSet.stream().filter(change ->
+                    changesSet.stream().noneMatch(change2 -> change2.wire().fullName().equals(change.wire().fullName()))
+            ).collect(Collectors.toSet());
 
-                changesSet.addAll(prevChangeSet);
-            }
+            changesSet.addAll(prevChangeSet);
+
             valuesAtCycle.add(changesSet);
             prevChangeSet = changesSet;
         }
