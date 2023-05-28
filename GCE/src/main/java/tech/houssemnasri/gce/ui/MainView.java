@@ -9,7 +9,6 @@ import java.util.TimerTask;
 
 
 import javafx.application.Platform;
-import javafx.beans.InvalidationListener;
 import javafx.beans.property.*;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
