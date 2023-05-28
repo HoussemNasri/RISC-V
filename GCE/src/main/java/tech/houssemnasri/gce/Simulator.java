@@ -1,8 +1,7 @@
 package tech.houssemnasri.gce;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import scala.collection.JavaConverters;
 import scala.math.BigInt;
@@ -38,6 +37,11 @@ public class Simulator {
         } else {
             cycle++;
             updateMachineState();
+            System.out.println("Stepping In: ");
+            System.out.println("Cycle: " + cycle);
+            System.out.println("PC: " + machine.getPC());
+            System.out.println("-------------------");
+
         }
     }
 
@@ -47,6 +51,10 @@ public class Simulator {
         } else {
             cycle--;
             updateMachineState();
+            System.out.println("Stepping Out: ");
+            System.out.println("Cycle: " + cycle);
+            System.out.println("PC: " + machine.getPC());
+            System.out.println("-------------------");
         }
     }
 
@@ -102,9 +110,22 @@ public class Simulator {
         cyclesCount = maxRecordedTime / CLOCK_CYCLE_PERIOD;
         valuesAtCycle.clear();
         valuesAtCycle.add(JavaConverters.asJava(vcd.initialValues()));
+        Set<Change> prevChangeSet = null;
         for (int cycle = 0; cycle < cyclesCount; cycle++) {
-            scala.collection.mutable.HashSet<Change> scalaChangesSet = vcd.valuesAtTime().getOrElse((cycle + 1) * CLOCK_CYCLE_PERIOD, scala.collection.mutable.HashSet::new);
-            valuesAtCycle.add(JavaConverters.asJava(scalaChangesSet));
+            Set<Change> changesSet =
+                    JavaConverters.setAsJavaSet(vcd.valuesAtTime().getOrElse((cycle + 1) * CLOCK_CYCLE_PERIOD, scala.collection.mutable.HashSet::new));
+            if (prevChangeSet != null) {
+                Set<Change> finalChangesSet = changesSet;
+                prevChangeSet = prevChangeSet.stream().filter(change ->
+                        finalChangesSet.stream().noneMatch(change2 -> change2.wire().fullName().equals(change.wire().fullName()))
+                ).collect(Collectors.toSet());
+
+                Set<Change> newChangeSet = new HashSet<>(changesSet);
+                newChangeSet.addAll(prevChangeSet);
+                changesSet = newChangeSet;
+            }
+            valuesAtCycle.add(changesSet);
+            prevChangeSet = changesSet;
         }
         reset();
     }
