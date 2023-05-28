@@ -1,5 +1,6 @@
 package tech.houssemnasri.gce.ui;
 
+import javafx.beans.InvalidationListener;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -37,18 +38,32 @@ public class MemoryViewer extends AnchorPane implements Callback<ListView<Memory
         ObservableList<Integer> words = dataMemory.getWords();
         List<Integer> pageValues = words
                 .subList(pageIndex * ITEMS_PER_PAGE, Math.min(pageIndex * ITEMS_PER_PAGE + ITEMS_PER_PAGE, words.size()));
-        List<MemoryItemModel> page = new ArrayList<>();
-        System.out.println(pageIndex);
-        for (int i = 0; i < pageValues.size(); i++) {
-            MemoryItemModel memoryItem = new MemoryItemModel();
-            memoryItem.address = Data.fromInt((pageIndex * ITEMS_PER_PAGE * 4) + i * 4);
-            memoryItem.value = Data.fromInt(pageValues.get(i));
-            page.add(memoryItem);
-        }
+        List<MemoryItemModel> page = convertToMemoryItemList(pageValues, pageIndex);
+
         ListView<MemoryItemModel> listView = new ListView<>(FXCollections.observableArrayList(page));
         listView.setCellFactory(this);
 
+        words.addListener((InvalidationListener) e -> {
+            List<Integer> pageValues2 = words
+                    .subList(pageIndex * ITEMS_PER_PAGE, Math.min(pageIndex * ITEMS_PER_PAGE + ITEMS_PER_PAGE, words.size()));
+            List<MemoryItemModel> page2 = convertToMemoryItemList(pageValues2, pageIndex);
+            listView.getItems().setAll(page2);
+        });
+
+
         return listView;
+    }
+
+    private List<MemoryItemModel> convertToMemoryItemList(List<Integer> memoryValues, int pageIndex) {
+        List<MemoryItemModel> result = new ArrayList<>();
+        for (int i = 0; i < memoryValues.size(); i++) {
+            MemoryItemModel memoryItem = new MemoryItemModel();
+            memoryItem.address = Data.fromInt((pageIndex * ITEMS_PER_PAGE * 4) + i * 4);
+            memoryItem.value = Data.fromInt(memoryValues.get(i));
+            result.add(memoryItem);
+        }
+
+        return result;
     }
 
     @Override

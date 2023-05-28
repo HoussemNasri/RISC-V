@@ -58,12 +58,11 @@ public class MainView extends AnchorPane implements Initializable {
         instructionsTableView.setEditable(true);
 
         instructionsTableView.getSelectionModel().select(0);
-        this.simulator.getMachine().PCProperty().addListener((observable, old, value) -> {
-            if (value.intValue() / 4 >= instructionsTableView.getItems().size()) {
+        this.simulator.getMachine().PCProperty().addListener((observable, old, pc) -> {
+            if (pc.intValue() / 4 >= instructionsTableView.getItems().size()) {
                 isRunning.set(false);
-                previousButton.setDisable(true);
-                nextButton.setDisable(true);
-                runPauseButton.setDisable(true);
+             /*   nextButton.setDisable(true);
+                runPauseButton.setDisable(true);*/
                 instructionsTableView.getSelectionModel().clearSelection();
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -71,7 +70,7 @@ public class MainView extends AnchorPane implements Initializable {
                 alert.setHeaderText("Program simulation finished. Click reset to start over");
                 alert.show();
             } else {
-                instructionsTableView.getSelectionModel().select((int) (value.longValue() / 4));
+                instructionsTableView.getSelectionModel().select((int) (pc.longValue() / 4));
             }
         });
 
