@@ -75,6 +75,13 @@ public class MainView extends AnchorPane implements Initializable {
             }
         });
 
+        dataDisplayModeCombobox.getItems().setAll(
+                DataDisplayMode.HEX,
+                DataDisplayMode.DECIMAL,
+                DataDisplayMode.BINARY
+        );
+        dataDisplayModeCombobox.getSelectionModel().selectFirst();
+
 
         initializeSidePane();
         initializeInstructionsTableView();
@@ -133,8 +140,13 @@ public class MainView extends AnchorPane implements Initializable {
         Tab registersTab = new Tab("Registers");
         Tab memoryTab = new Tab("Memory");
 
-        registersTab.setContent(new RegistersViewer(simulator.getMachine().getRegisterFile()));
-        memoryTab.setContent(new MemoryViewer(simulator.getMachine().getDataMemory()));
+        RegistersViewer registersViewer = new RegistersViewer(simulator.getMachine().getRegisterFile());
+        registersViewer.dataDisplayModeProperty().bind(dataDisplayModeCombobox.valueProperty());
+        registersTab.setContent(registersViewer);
+
+        MemoryViewer memoryViewer = new MemoryViewer(simulator.getMachine().getDataMemory());
+        memoryViewer.dataDisplayModeProperty().bind(dataDisplayModeCombobox.valueProperty());
+        memoryTab.setContent(memoryViewer);
 
         sidePane.getTabs().addAll(registersTab, memoryTab);
 

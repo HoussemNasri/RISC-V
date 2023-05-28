@@ -21,11 +21,11 @@ public class Data {
     }
 
     public String decimal() {
-        return "";
+        return String.valueOf(data);
     }
 
     public String binary() {
-        return "";
+        return Long.toBinaryString(data);
     }
 
     public long getData() {

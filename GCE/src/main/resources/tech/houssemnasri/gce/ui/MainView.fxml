@@ -45,7 +45,7 @@
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="16.0">
                             <children>
                                 <Label text="Display Mode" />
-                                <ComboBox fx:id="dataDisplayModeCombobox" prefWidth="100.0" promptText="Hex" />
+                                <ComboBox fx:id="dataDisplayModeCombobox" prefWidth="130.0" promptText="Hex" />
                             </children>
                         </HBox>
                     </children>

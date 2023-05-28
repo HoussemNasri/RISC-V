@@ -1,5 +1,7 @@
 package tech.houssemnasri.gce.ui;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
@@ -15,6 +17,7 @@ import java.util.List;
 public class MemoryViewer extends AnchorPane implements Callback<ListView<MemoryViewer.MemoryItemModel>, ListCell<MemoryViewer.MemoryItemModel>> {
     private static final int ITEMS_PER_PAGE = 16;
     private final DataMemory dataMemory;
+    private final ObjectProperty<DataDisplayMode> dataDisplayMode = new SimpleObjectProperty<>(DataDisplayMode.HEX);
 
     public MemoryViewer(DataMemory dataMemory) {
         this.dataMemory = dataMemory;
@@ -61,7 +64,24 @@ public class MemoryViewer extends AnchorPane implements Callback<ListView<Memory
 
                     Label label = new Label(item.address.hex());
                     label.setMinWidth(120);
-                    TextField textfield = new TextField(item.value.hex());
+                    TextField textfield = new TextField();
+                    if (dataDisplayMode.get().equals(DataDisplayMode.BINARY)) {
+                        textfield.setText(item.value.binary());
+                    } else if (dataDisplayMode.get().equals(DataDisplayMode.DECIMAL)) {
+                        textfield.setText(item.value.decimal());
+                    } else {
+                        textfield.setText(item.value.hex());
+                    }
+                    dataDisplayMode.addListener((obs, old, displayMode) -> {
+                        if (displayMode.equals(DataDisplayMode.BINARY)) {
+                            textfield.setText(item.value.binary());
+                        } else if (displayMode.equals(DataDisplayMode.DECIMAL)) {
+                            textfield.setText(item.value.decimal());
+                        } else {
+                            textfield.setText(item.value.hex());
+                        }
+                    });
+
                     textfield.setEditable(false);
                     HBox hbox = new HBox(12, label, textfield);
                     setGraphic(hbox);
@@ -70,6 +90,9 @@ public class MemoryViewer extends AnchorPane implements Callback<ListView<Memory
         };
     }
 
+    public ObjectProperty<DataDisplayMode> dataDisplayModeProperty() {
+        return dataDisplayMode;
+    }
 
     public static class MemoryItemModel {
         private Data address;
