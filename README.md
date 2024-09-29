@@ -1,5 +1,5 @@
 # RISC-V
-A RV32I compliant RISC-V CPU in VHDL, accompanied by a custom simulation tool that allows interactive program execution on the CPU
+A RV32I compliant RISC-V CPU in VHDL, accompanied by a custom made simulation tool that allows interactive program execution on the CPU
 ## The CPU
 ## The Simulation Tool
 ### Design and Architecture
